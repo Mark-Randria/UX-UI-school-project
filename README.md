@@ -1,2 +1,2 @@
 # UX-UI-school-project
-a school project to evaluate your skills in UX/UI designing
+a school project to evaluate skills in UX/UI designing

@@ -8,7 +8,6 @@ export const Container = styled.div`
   justify-items: center;
   height: 100vh;
   @media (min-width: ${size.tablet}) {
-    margin: 0 2% 0 2%;
     grid-template-columns: repeat(8, 1fr);
     column-gap: 1rem;
   }
@@ -65,7 +64,6 @@ export const LeftGrid = styled(Grid)`
 `;
 
 export const RightGrid = styled(Grid)`
-  background-color: red;
   grid-column-start: 1;
   grid-column-end: 1;
   width: 100%;
@@ -94,4 +92,12 @@ export const RightGrid = styled(Grid)`
     grid-column-start: 12;
     grid-column-end: 19;
   }
+`;
+
+export const WelcomeTag = styled.div`
+  padding-top: 25%;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: #ffffff;
 `;

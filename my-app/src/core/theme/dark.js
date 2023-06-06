@@ -8,7 +8,7 @@ import {
     grayDark,
   } from "@radix-ui/colors";
   
-  const theme = {
+  const darkTheme = {
     colors: {
       ...tealDarkA,
       ...greenDarkA,

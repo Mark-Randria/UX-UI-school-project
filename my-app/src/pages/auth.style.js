@@ -8,24 +8,19 @@ export const Container = styled.div`
   justify-items: center;
   height: 100vh;
   @media (min-width: ${size.tablet}) {
-    grid-template-columns: repeat(8, 1fr);
-    column-gap: 1rem;
+    grid-template-columns: repeat(8, 1fr);00
   }
   @media (min-width: ${size.laptop}) {
     grid-template-columns: repeat(12, 1fr);
-    column-gap: 1rem;
   }
   @media (min-width: ${size.laptopM}) {
     grid-template-columns: repeat(14, 1fr);
-    column-gap: 1rem;
   }
   @media (min-width: ${size.laptopL}) {
     grid-template-columns: repeat(16, 1fr);
-    column-gap: 1rem;
   }
   @media (min-width: ${size.desktop}) {
     grid-template-columns: repeat(18, 1fr);
-    column-gap: 1rem;
   }
 `;
 
@@ -64,6 +59,7 @@ export const LeftGrid = styled(Grid)`
 `;
 
 export const RightGrid = styled(Grid)`
+background-color: ${props => props.theme.colors.gray1};
   grid-column-start: 1;
   grid-column-end: 1;
   width: 100%;

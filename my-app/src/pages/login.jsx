@@ -2,11 +2,14 @@ import React from "react";
 
 import { AuthService } from "../services/auth-service";
 import { Container, LeftGrid, RightGrid, WelcomeTag } from "./auth.style";
-
-import theme from "../core/theme/light";
-import darkTheme from "../core/theme/dark";
+import Input from "../components/inputs/input";
 
 export default function Login() {
+
+  const [user, setUser] = React.useState('');
+    const [password, setPassword] = React.useState('');
+
+    
   return (
     <>
       <Container>
@@ -16,7 +19,9 @@ export default function Login() {
           </WelcomeTag>
         </LeftGrid>
         <RightGrid>
-          <div> connexion </div>
+          <div> connexion </div> <br></br>
+          <Input value={user} setValue={setUser} />
+
         </RightGrid>
       </Container>
     </>

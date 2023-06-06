@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import BgFrameSvg from "../assets/designIHM.svg";
 
 import { size } from "../core/theme/breakpoints";
@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-items: center;
   height: 100vh;
   @media (min-width: ${size.tablet}) {
-    grid-template-columns: repeat(8, 1fr);00
+    grid-template-columns: repeat(8, 1fr);
   }
   @media (min-width: ${size.laptop}) {
     grid-template-columns: repeat(12, 1fr);
@@ -90,10 +90,44 @@ background-color: ${props => props.theme.colors.gray1};
   }
 `;
 
-export const WelcomeTag = styled.div`
+export const TitleTag = styled.div`
   padding-top: 25%;
+  margin: 0% 10%;
   text-align: center;
   font-size: 48px;
   font-weight: bold;
-  color: #ffffff;
+  color : ${(props) => props.$colorsMode || "#FFFFFF"};
+
+  @media (min-width: ${size.laptopL}) {
+    padding-top: ${(props) => props.$position ? "32.5%" : "25%"};
+    
+  }
+
+  @media (min-width: ${size.desktop}) {
+    padding-top: ${(props) => props.$position ? "33%" : "25%"};
+    
+  }
+`;
+
+export const RightCornerTop = styled.div`
+    display: flex;
+    flex-direction: row-reverse;
+    text-align: right;
+    margin-right: 2%;
+
+    p {
+        color: ${(props) => props.theme.colors.gray11};
+    }
+`;
+
+export const AboutInfo = styled.div`
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    margin-top: -2%;
+
+    p {
+        color: ${(props) => props.theme.colors.gray11};
+    }
 `;

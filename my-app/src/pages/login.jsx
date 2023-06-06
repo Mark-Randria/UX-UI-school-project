@@ -1,27 +1,38 @@
 import React from "react";
 
 import { AuthService } from "../services/auth-service";
-import { Container, LeftGrid, RightGrid, WelcomeTag } from "./auth.style";
+import {
+  Container,
+  LeftGrid,
+  RightGrid,
+  TitleTag,
+  RightCornerTop,
+  AboutInfo
+} from "./auth.style";
 import Input from "../components/inputs/input";
 
 export default function Login() {
+  const [user, setUser] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-  const [user, setUser] = React.useState('');
-    const [password, setPassword] = React.useState('');
-
-    
   return (
     <>
       <Container>
         <LeftGrid>
-          <WelcomeTag>
-            Bienvenue sur easy-Schedule
-          </WelcomeTag>
+          <TitleTag>Bienvenue sur Easy-Schedule</TitleTag>
         </LeftGrid>
         <RightGrid>
-          <div> connexion </div> <br></br>
+          <RightCornerTop>
+            <p>Vous posseder un compte ?</p>
+          </RightCornerTop>
+          <TitleTag $colorsMode={`#0E9888`} $position>Inscription</TitleTag>
+          <AboutInfo>
+            <p>
+              Veuiller remplir le formulaire suivant
+            </p>
+          </AboutInfo>
           <Input value={user} setValue={setUser} />
-
+          <Input value={password} setValue={setPassword} />
         </RightGrid>
       </Container>
     </>

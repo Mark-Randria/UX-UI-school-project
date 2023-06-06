@@ -10,6 +10,7 @@ import {
   AboutInfo
 } from "./auth.style";
 import Input from "../components/inputs/input";
+import Button from "../components/buttons/button";
 
 export default function Login() {
   const [user, setUser] = React.useState("");
@@ -33,6 +34,9 @@ export default function Login() {
           </AboutInfo>
           <Input value={user} setValue={setUser} />
           <Input value={password} setValue={setPassword} />
+          <Button>
+            HELLO MF
+          </Button>
         </RightGrid>
       </Container>
     </>

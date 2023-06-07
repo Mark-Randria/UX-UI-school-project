@@ -34,7 +34,7 @@ export default function Login() {
           </AboutInfo>
           <Input value={user} setValue={setUser} />
           <Input value={password} setValue={setPassword} />
-          <Button>
+          <Button color="info">
             HELLO MF
           </Button>
         </RightGrid>

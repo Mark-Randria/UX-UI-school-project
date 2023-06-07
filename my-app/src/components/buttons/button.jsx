@@ -9,10 +9,10 @@ const Button = ({ children, color, onClick }) => {
     //     {text}
     //   </Button>
     // </BoxStyled>
-    <StyledButton>
-        {children}
-    </StyledButton>
-  )
+    <>
+      <StyledButton $mode={color}>{children}</StyledButton>
+    </>
+  );
 };
 
-export default Button
+export default Button;

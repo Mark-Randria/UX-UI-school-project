@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 export const StyledButton = styled.button`
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
-  margin-bottom: 0.5rem;
   font-size: 14px;
   line-height: 1.25rem;
   font-weight: 500;
@@ -12,6 +11,7 @@ export const StyledButton = styled.button`
   font-weight: 600;
   max-width: 162px;
   width: ${(props) => props.$width};
+  height: ${(props) => props.$height};
   ${(props) => {
     switch (props.$mode) {
       case "success":
@@ -26,7 +26,7 @@ export const StyledButton = styled.button`
         return css`
           background-color: ${(props) => props.theme.colors.blueA9};
           color: white;
-          :focus:hover {
+          :hover {
             background-color: ${(props) => props.theme.colors.blueA10};
           }
         `;
@@ -34,7 +34,7 @@ export const StyledButton = styled.button`
         return css`
           background-color: ${(props) => props.theme.colors.amberA9};
           color: black;
-          :focus:hover {
+          :hover {
             background-color: ${(props) => props.theme.colors.amberA10};
           }
         `;
@@ -42,7 +42,7 @@ export const StyledButton = styled.button`
         return css`
           background-color: ${(props) => props.theme.colors.redA9};
           color: white;
-          :focus:hover {
+          :hover {
             background-color: ${(props) => props.theme.colors.redA10};
           }
         `;
@@ -50,7 +50,7 @@ export const StyledButton = styled.button`
         return css`
           background-color: ${(props) => props.theme.colors.gray9};
           color: white;
-          :focus:hover {
+          :hover {
             background-color: ${(props) => props.theme.colors.gray10};
           }
         `;
@@ -58,7 +58,7 @@ export const StyledButton = styled.button`
         return css`
           background-color: ${(props) => props.theme.colors.tealA9};
           color: white;
-          :focus:hover {
+          :hover{
             background-color: ${(props) => props.theme.colors.tealA10};
           }
           }

@@ -6,7 +6,7 @@ export const StyledInput = styled.input`
   width: 27vw;
   max-width: 400px;
   height: 42px;
-  font-size: 1.25rem;
+  font-size: 18px;
   border-radius: 5px;
   border-width: 1px;
   border-color: ${(props) => props.theme.colors.gray7};
@@ -27,7 +27,18 @@ export const StyledInput = styled.input`
 
 export const Box = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 48px;
+  height: fit-content;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
+
+export const Label = styled(Box)`
+    text-align: ${(props) => props.textAlign};
+    font-weight: 500;
+    width: 60%;
+    max-width: 400px;
+    justify-content: flex-start;
 `;

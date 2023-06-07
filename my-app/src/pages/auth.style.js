@@ -91,15 +91,14 @@ background-color: ${props => props.theme.colors.gray1};
 `;
 
 export const TitleTag = styled.div`
-  padding-top: 25%;
-  margin: 0% 10%;
+  padding-top: 4rem;
   text-align: center;
   font-size: 48px;
   font-weight: bold;
   color : ${(props) => props.$colorsMode || "#FFFFFF"};
 
   @media (min-width: ${size.laptopL}) {
-    padding-top: ${(props) => props.$position ? "32.5%" : "25%"};
+    padding-top: 4.5rem;
     
   }
 
@@ -112,6 +111,7 @@ export const TitleTag = styled.div`
 export const RightCornerTop = styled.div`
     display: flex;
     flex-direction: row-reverse;
+    align-items: center;
     text-align: right;
     margin-right: 2%;
 
@@ -125,7 +125,7 @@ export const AboutInfo = styled.div`
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    margin-top: -2%;
+    margin-top: -3%;
 
     p {
         color: ${(props) => props.theme.colors.gray11};
@@ -133,11 +133,14 @@ export const AboutInfo = styled.div`
 `;
 
 export const PositionDiv = styled.div`
+    margin-top: ${(props) => props.topdistance};
     display: flex;
     flex-direction: row;
     justify-content: center;
-`
+`;
 
+// GapComponents is used to make a space between components
 export const GapComponents = styled.div`
-    width: ${(props) => props.$gap};
+    width: ${(props) => props.gapX};
+    height: ${(props) => props.gapY};
 `

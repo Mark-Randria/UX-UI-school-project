@@ -131,3 +131,13 @@ export const AboutInfo = styled.div`
         color: ${(props) => props.theme.colors.gray11};
     }
 `;
+
+export const PositionDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+`
+
+export const GapComponents = styled.div`
+    width: ${(props) => props.$gap};
+`

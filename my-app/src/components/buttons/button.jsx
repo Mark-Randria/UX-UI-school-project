@@ -2,7 +2,7 @@ import React from "react";
 
 import { StyledButton } from "./button.style";
 
-const Button = ({ children, color, onClick }) => {
+const Button = ({ children, color, width, onClick }) => {
   return (
     // <BoxStyled color={color} onClick={onClick}>
     //   <Button variant="text" size="small">
@@ -10,7 +10,7 @@ const Button = ({ children, color, onClick }) => {
     //   </Button>
     // </BoxStyled>
     <>
-      <StyledButton $mode={color}>{children}</StyledButton>
+      <StyledButton $mode={color} $width={width} >{children}</StyledButton>
     </>
   );
 };

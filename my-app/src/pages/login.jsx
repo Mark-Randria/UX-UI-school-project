@@ -7,7 +7,9 @@ import {
   RightGrid,
   TitleTag,
   RightCornerTop,
-  AboutInfo
+  AboutInfo,
+  PositionDiv,
+  GapComponents,
 } from "./auth.style";
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
@@ -26,17 +28,21 @@ export default function Login() {
           <RightCornerTop>
             <p>Vous posseder un compte ?</p>
           </RightCornerTop>
-          <TitleTag $colorsMode={`#0E9888`} $position>Inscription</TitleTag>
+          <TitleTag $colorsMode={`#0E9888`} $position>
+            Inscription
+          </TitleTag>
           <AboutInfo>
-            <p>
-              Veuiller remplir le formulaire suivant
-            </p>
+            <p>Veuiller remplir le formulaire suivant</p>
           </AboutInfo>
           <Input value={user} setValue={setUser} />
           <Input value={password} setValue={setPassword} />
-          <Button color="info">
-            HELLO MF
-          </Button>
+          <PositionDiv>
+            <Button color="notimportant" width="10vw">
+              Annuler
+            </Button>
+            <GapComponents $gap="73px" />
+            <Button width="10vw">Enregistrer</Button>
+          </PositionDiv>
         </RightGrid>
       </Container>
     </>

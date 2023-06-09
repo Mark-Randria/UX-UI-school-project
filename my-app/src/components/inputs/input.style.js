@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { size } from "../../core/theme/breakpoints";
+
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -48,11 +50,20 @@ export const StyledInput = styled.input`
   :focus {
     outline: none;
     outline-offset: 0px;
+    ::placeholder {
+      color: transparent;
+    }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: ${size.tablet}) {
     font-size: 1rem;
     line-height: 1rem;
+  }
+  @media (max-width: ${size.tablet}) {
+    ::placeholder {
+      text-align: center;
+    }
+    text-align: center;
   }
 `;
 
@@ -72,6 +83,12 @@ export const Label = styled(Box)`
   width: 60%;
   max-width: 400px;
   justify-content: flex-start;
+
+  @media (max-width: ${size.tablet}) {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const Icons = styled.div`

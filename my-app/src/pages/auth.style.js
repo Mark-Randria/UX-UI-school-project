@@ -6,7 +6,7 @@ import { size } from "../core/theme/breakpoints";
 export const Container = styled.div`
   display: grid;
   justify-items: center;
-  height: 100vh;
+  min-height: 100vh;
   @media (min-width: ${size.tablet}) {
     grid-template-columns: repeat(8, 1fr);
   }
@@ -24,6 +24,7 @@ export const Container = styled.div`
   }
   @media (max-width: ${size.tablet}) {
     background-image: url(${BgFrameSvg});
+    background-color: red;
   }
 `;
 
@@ -62,11 +63,13 @@ export const LeftGrid = styled(Grid)`
 
   @media (max-width: ${size.tablet}) {
     position: absolute;
+    background-image: none;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: -1;
+  }
 `;
 
 export const RightGrid = styled(Grid)`
@@ -101,7 +104,8 @@ export const RightGrid = styled(Grid)`
   }
   @media (max-width: ${size.tablet}) {
     margin-top: 10vh;
-    padding: 0px 24px 24px 24px;
+    margin-bottom: 5vh;
+    padding: 10px 12px 24px 12px;
     width: 80vw;
     height: fit-content;
     border-radius: 15px;

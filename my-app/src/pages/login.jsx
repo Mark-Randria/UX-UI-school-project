@@ -53,6 +53,7 @@ export default function Login() {
             label="Nom d'utilisateur"
             id="Nom d'utilisateur"
             placeholder="Ex: Patate douce"
+            type="text"
             value={user}
             setValue={setUser}
           />

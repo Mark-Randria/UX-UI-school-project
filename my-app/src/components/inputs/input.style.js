@@ -43,6 +43,7 @@ export const StyledInput = styled.input`
   font-size: 18px;
   border-style: none;
   color: ${(props) => props.theme.colors.gray12};
+  background-color: transparent;
   :hover {
     outline: none;
     outline-offset: 0px;
@@ -83,7 +84,6 @@ export const Label = styled(Box)`
   width: 60%;
   max-width: 400px;
   justify-content: flex-start;
-
   @media (max-width: ${size.tablet}) {
     text-align: center;
     align-items: center;

@@ -1,4 +1,5 @@
 import {
+  slate,
   tealA,
   greenA,
   blueA,
@@ -10,6 +11,7 @@ import {
 
 const theme = {
   colors: {
+    ...slate,
     ...tealA,
     ...greenA,
     ...blueA,

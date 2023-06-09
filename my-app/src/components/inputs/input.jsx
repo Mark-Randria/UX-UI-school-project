@@ -17,7 +17,7 @@ const Input = ({ id, label, icon, placeholder, type, value, setValue }) => {
     <>
       <Box>
         <Label textAlign="left">
-          <label for={id}>{label}</label>
+          <label htmlFor={id}>{label}</label>
         </Label>
       </Box>
       <Box>

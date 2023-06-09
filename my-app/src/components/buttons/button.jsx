@@ -4,13 +4,8 @@ import { StyledButton } from "./button.style";
 
 const Button = ({ children, color, width, height, onClick }) => {
   return (
-    // <BoxStyled color={color} onClick={onClick}>
-    //   <Button variant="text" size="small">
-    //     {text}
-    //   </Button>
-    // </BoxStyled>
     <>
-      <StyledButton $mode={color} $width={width} $height={height}>
+      <StyledButton $mode={color} $width={width} $height={height} onClick={onClick}>
         {children}
       </StyledButton>
     </>

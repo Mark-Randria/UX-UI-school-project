@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { AuthService } from "../services/auth-service";
 import {
   Container,
@@ -22,11 +24,11 @@ export default function Login() {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
+  const Navigate = useNavigate();
+
   function togglePasswordVisibility() {
     setShowPassword((prevState) => !prevState);
   }
-
-
 
   return (
     <>
@@ -37,7 +39,11 @@ export default function Login() {
         </LeftGrid>
         <RightGrid>
           <RightCornerTop>
-            <Button color="info" width="82px">
+            <Button
+              color="info"
+              width="82px"
+              onClick={() => Navigate("/Signup")}
+            >
               S&apos;inscrire
             </Button>
             <GapComponents gapX="10px" />
@@ -62,8 +68,14 @@ export default function Login() {
             label="Mot de passe"
             id="Mot de passe"
             placeholder="8 caracteres min"
-            type={showPassword ? 'text' : 'password'}
-            icon={showPassword ? <EyeClosedIcon onClick={togglePasswordVisibility}/> : <EyeOpenIcon onClick={togglePasswordVisibility} />}
+            type={showPassword ? "text" : "password"}
+            icon={
+              showPassword ? (
+                <EyeClosedIcon onClick={togglePasswordVisibility} />
+              ) : (
+                <EyeOpenIcon onClick={togglePasswordVisibility} />
+              )
+            }
             value={password}
             setValue={setPassword}
           />

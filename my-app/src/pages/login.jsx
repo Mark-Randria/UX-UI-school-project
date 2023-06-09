@@ -30,7 +30,7 @@ export default function Login() {
         <RightGrid>
           <RightCornerTop>
             <Button color="info" width="82px">
-              s&apos;inscrire
+              S&apos;inscrire
             </Button>
             <GapComponents gapX="10px" />
             <p>Vous n&apos;avez pas encore de compte ?</p>
@@ -43,13 +43,16 @@ export default function Login() {
           </AboutInfo>
           <Input
             label="Nom d'utilisateur"
+            id="Nom d'utilisateur"
             placeholder="Ex: Patate douce"
             value={user}
             setValue={setUser}
+            icon={ <EyeOpenIcon />}
           />
           <GapComponents gapY="20px" />
           <Input
             label="Mot de passe"
+            id="Mot de passe"
             placeholder="8 caracteres min"
             type="password"
             value={password}

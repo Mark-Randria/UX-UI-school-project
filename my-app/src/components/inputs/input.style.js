@@ -78,6 +78,6 @@ export const Icons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0px 5px;
+  margin: 0px 15px 0px 0px;
   color: ${(props) => props.theme.colors.gray12};
 `;

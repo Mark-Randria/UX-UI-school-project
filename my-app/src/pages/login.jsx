@@ -14,11 +14,19 @@ import {
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
 
-import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
 export default function Login() {
   const [user, setUser] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  function togglePasswordVisibility() {
+    setShowPassword((prevState) => !prevState);
+  }
+
+
 
   return (
     <>
@@ -47,14 +55,14 @@ export default function Login() {
             placeholder="Ex: Patate douce"
             value={user}
             setValue={setUser}
-            icon={ <EyeOpenIcon />}
           />
           <GapComponents gapY="20px" />
           <Input
             label="Mot de passe"
             id="Mot de passe"
             placeholder="8 caracteres min"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
+            icon={showPassword ? <EyeClosedIcon onClick={togglePasswordVisibility}/> : <EyeOpenIcon onClick={togglePasswordVisibility} />}
             value={password}
             setValue={setPassword}
           />

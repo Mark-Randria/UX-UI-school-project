@@ -6,7 +6,7 @@ import { size } from "../core/theme/breakpoints";
 export const Container = styled.div`
   display: grid;
   justify-items: center;
-  height: 100vh;
+  min-height: 100vh;
   @media (min-width: ${size.tablet}) {
     grid-template-columns: repeat(8, 1fr);
   }
@@ -21,6 +21,10 @@ export const Container = styled.div`
   }
   @media (min-width: ${size.desktop}) {
     grid-template-columns: repeat(18, 1fr);
+  }
+  @media (max-width: ${size.tablet}) {
+    background-image: url(${BgFrameSvg});
+    background-color: red;
   }
 `;
 
@@ -56,10 +60,20 @@ export const LeftGrid = styled(Grid)`
     grid-column-start: 1;
     grid-column-end: 12;
   }
+
+  @media (max-width: ${size.tablet}) {
+    position: absolute;
+    background-image: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+  }
 `;
 
 export const RightGrid = styled(Grid)`
-background-color: ${props => props.theme.colors.gray1};
+  background-color: ${(props) => props.theme.colors.gray1};
   grid-column-start: 1;
   grid-column-end: 1;
   width: 100%;
@@ -88,6 +102,14 @@ background-color: ${props => props.theme.colors.gray1};
     grid-column-start: 12;
     grid-column-end: 19;
   }
+  @media (max-width: ${size.tablet}) {
+    margin-top: 10vh;
+    margin-bottom: 5vh;
+    padding: 10px 12px 24px 12px;
+    width: 80vw;
+    height: fit-content;
+    border-radius: 15px;
+  }
 `;
 
 export const TitleTag = styled.div`
@@ -95,52 +117,50 @@ export const TitleTag = styled.div`
   text-align: center;
   font-size: 48px;
   font-weight: bold;
-  color : ${(props) => props.$colorsMode || "#FFFFFF"};
+  color: ${(props) => props.$colorsMode || "#FFFFFF"};
 
   @media (min-width: ${size.laptopL}) {
     padding-top: 4.5rem;
-    
   }
 
   @media (min-width: ${size.desktop}) {
-    padding-top: ${(props) => props.$position ? "33%" : "25%"};
-    
+    padding-top: ${(props) => (props.$position ? "33%" : "25%")};
   }
 `;
 
 export const RightCornerTop = styled.div`
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    text-align: right;
-    margin-right: 2%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  text-align: right;
+  margin-right: 2%;
 
-    p {
-        color: ${(props) => props.theme.colors.gray11};
-    }
+  p {
+    color: ${(props) => props.theme.colors.gray11};
+  }
 `;
 
 export const AboutInfo = styled.div`
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-content: center;
-    margin-top: -3%;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  margin-top: -3%;
 
-    p {
-        color: ${(props) => props.theme.colors.gray11};
-    }
+  p {
+    color: ${(props) => props.theme.colors.gray11};
+  }
 `;
 
 export const PositionDiv = styled.div`
-    margin-top: ${(props) => props.topdistance};
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  margin-top: ${(props) => props.topdistance};
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 // GapComponents is used to make a space between components
 export const GapComponents = styled.div`
-    width: ${(props) => props.gapX};
-    height: ${(props) => props.gapY};
-`
+  width: ${(props) => props.gapX};
+  height: ${(props) => props.gapY};
+`;

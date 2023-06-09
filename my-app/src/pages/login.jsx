@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { AuthService } from "../services/auth-service";
 import {
   Container,
@@ -14,11 +16,19 @@ import {
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
 
-import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
 export default function Login() {
   const [user, setUser] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const Navigate = useNavigate();
+
+  function togglePasswordVisibility() {
+    setShowPassword((prevState) => !prevState);
+  }
 
   return (
     <>
@@ -29,8 +39,12 @@ export default function Login() {
         </LeftGrid>
         <RightGrid>
           <RightCornerTop>
-            <Button color="info" width="82px">
-              s&apos;inscrire
+            <Button
+              color="info"
+              width="82px"
+              onClick={() => Navigate("/Signup")}
+            >
+              S&apos;inscrire
             </Button>
             <GapComponents gapX="10px" />
             <p>Vous n&apos;avez pas encore de compte ?</p>
@@ -43,15 +57,25 @@ export default function Login() {
           </AboutInfo>
           <Input
             label="Nom d'utilisateur"
+            id="Nom d'utilisateur"
             placeholder="Ex: Patate douce"
+            type="text"
             value={user}
             setValue={setUser}
           />
           <GapComponents gapY="20px" />
           <Input
             label="Mot de passe"
+            id="Mot de passe"
             placeholder="8 caracteres min"
-            type="password"
+            type={showPassword ? "text" : "password"}
+            icon={
+              showPassword ? (
+                <EyeClosedIcon onClick={togglePasswordVisibility} />
+              ) : (
+                <EyeOpenIcon onClick={togglePasswordVisibility} />
+              )
+            }
             value={password}
             setValue={setPassword}
           />

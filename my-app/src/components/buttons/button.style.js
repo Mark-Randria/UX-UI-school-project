@@ -11,7 +11,7 @@ export const StyledButton = styled.button`
   font-weight: 600;
   max-width: 162px;
   width: ${(props) => props.$width};
-  min-width: 80px;
+  min-width: 78px;
   height: ${(props) => props.$height};
   ${(props) => {
     switch (props.$mode) {

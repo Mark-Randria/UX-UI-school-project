@@ -44,6 +44,7 @@ export default function Login() {
             <Button
               color="info"
               width="82px"
+              minWidth="78px"
               onClick={() => Navigate("/Login")}
             >
               Se connecter
@@ -107,11 +108,13 @@ export default function Login() {
             setValue={setConfirmPassword}
           />
           <PositionDiv topdistance="50px">
-            <Button color="notimportant" width="10vw">
+            <Button color="notimportant" width="10vw" minWidth="78px">
               Annuler
             </Button>
             <GapComponents gapX="73px" />
-            <Button width="10vw">Se connecter</Button>
+            <Button width="10vw" minWidth="78px">
+              Se connecter
+            </Button>
           </PositionDiv>
         </RightGrid>
       </Container>

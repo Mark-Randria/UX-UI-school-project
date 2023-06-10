@@ -84,6 +84,7 @@ export const Label = styled(Box)`
   width: 60%;
   max-width: 400px;
   justify-content: flex-start;
+  color: ${(props) => props.theme.colors.slate12};
   @media (max-width: ${size.tablet}) {
     text-align: center;
     align-items: center;

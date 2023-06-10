@@ -22,8 +22,6 @@ function WithTheme({ children }){
     }
   }, []);
 
-  console.log(themeswitch)
-
   return (
     <ThemeProvider theme={themeswitch}>
       {children}

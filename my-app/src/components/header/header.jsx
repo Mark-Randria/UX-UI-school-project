@@ -23,8 +23,6 @@ export default function Header() {
 
     const ToogleTheme = React.useContext(ThemeContext);
 
-    console.log(ToogleTheme);
-
   return (
     <HeaderContainer>
       <LogoContainer>

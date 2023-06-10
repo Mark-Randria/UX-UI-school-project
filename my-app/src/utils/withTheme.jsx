@@ -13,12 +13,12 @@ function WithTheme({ children }) {
 
   const handleThemeToogle = () => {
     setIsDarkMode(!isDarkMode);
-    localStorage.setItem("isDarkMode", JSON.stringify(!isDarkMode));
+    sessionStorage.setItem("isDarkMode", JSON.stringify(!isDarkMode));
   };
 
   React.useEffect(() => {
     const currentTheme = JSON.parse(
-      localStorage.getItem("isDarkMode") || "false"
+      sessionStorage.getItem("isDarkMode") || "false"
     );
     if (currentTheme) {
       setIsDarkMode(currentTheme);

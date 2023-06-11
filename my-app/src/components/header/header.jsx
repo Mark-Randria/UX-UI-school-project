@@ -2,6 +2,7 @@ import React from "react";
 
 import {
   SunIcon,
+  MoonIcon,
   ExitIcon,
   AvatarIcon,
   DividerVerticalIcon,
@@ -15,13 +16,26 @@ import {
   GapComponents,
 } from "./header.style";
 
-import Button from "../buttons/button";
-
 import ThemeContext from "../../utils/themecontext";
 
 export default function Header() {
+  const toogleTheme = React.useContext(ThemeContext);
 
-    const ToogleTheme = React.useContext(ThemeContext);
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+
+  const handleThemeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+    toogleTheme();
+  };
+
+  React.useEffect(() => {
+    const currentTheme = JSON.parse(
+      sessionStorage.getItem("isDarkMode") || "false"
+    );
+    if (currentTheme) {
+      setIsDarkMode(currentTheme);
+    }
+  }, []);
 
   return (
     <HeaderContainer>
@@ -30,9 +44,13 @@ export default function Header() {
       </LogoContainer>
       <HeaderComponents>
         <Box>
-          <SunIcon width={16} height={16} onClick={ToogleTheme}/>
+          {isDarkMode ? (
+            <MoonIcon width={16} height={16} onClick={handleThemeToggle} />
+          ) : (
+            <SunIcon width={16} height={16} onClick={handleThemeToggle} />
+          )}
           <GapComponents gapX="5px" />
-          <DividerVerticalIcon width={32} height={32} />
+          <DividerVerticalIcon width={24} height={24} />
           <GapComponents gapX="5px" />
         </Box>
         <Box>
@@ -41,7 +59,7 @@ export default function Header() {
           <GapComponents gapX="10px" />
           <p>RANDRIA Mark</p>
           <GapComponents gapX="10px" />
-          <DividerVerticalIcon width={32} height={32} />
+          <DividerVerticalIcon width={24} height={24} />
         </Box>
         <Box>
           <GapComponents gapX="5px" />

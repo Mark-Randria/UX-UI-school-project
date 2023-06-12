@@ -164,3 +164,13 @@ export const GapComponents = styled.div`
   width: ${(props) => props.gapX};
   height: ${(props) => props.gapY};
 `;
+
+export const PopUp = styled.div`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin: 0.5rem; */
+    margin-top: 1rem;
+    color: red;
+`

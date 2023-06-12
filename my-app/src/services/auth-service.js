@@ -9,7 +9,7 @@ let login = async (identity, password) => {
   });
   if (response.data) {
     console.log(response.data);
-    localStorage.setItem("token", JSON.stringify(response.data.token));
+    sessionStorage.setItem("token", JSON.stringify(response.data.token));
   }
   return response.data.token;
 };
@@ -43,7 +43,7 @@ let isLogged = () => {
     const currentTime = Date.now() / 1000;
 
     if (decodedToken.exp < currentTime) {
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       return false;
     }
   }
@@ -52,15 +52,15 @@ let isLogged = () => {
 };
 
 let saveToken = (token) => {
-  localStorage.setItem("token", token);
+  sessionStorage.setItem("token", token);
 };
 
 let removeToken = ()=> {
-  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
 };
 
 let getToken = () => {
-  return localStorage.getItem("token");
+  return sessionStorage.getItem("token");
 };
 
 export const AuthService = {

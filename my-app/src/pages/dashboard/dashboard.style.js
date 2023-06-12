@@ -10,7 +10,7 @@ export const Content = styled.div`
   height: calc(100vh - 64px);
   background-color: ${(props) => props.theme.colors.gray5};
 
-  @media (max-width: ${size.mobileL}) {
+  @media (max-width: 560px) {
     margin: 0;
   }
 `;

@@ -4,6 +4,7 @@ import LightIllustration from "../../assets/undraw_scrum_board_Light.svg";
 import {
   SideMenuContainer,
   SideMenuContent,
+  SideMenuContentgap,
   Box,
   GapComponents,
 } from "./sidemenu.style";
@@ -16,6 +17,7 @@ import {
   HomeIcon,
   Pencil2Icon,
   PersonIcon,
+  GearIcon,
 } from "@radix-ui/react-icons";
 
 export default function Sidemenu({ setActivePage }) {
@@ -83,10 +85,18 @@ export default function Sidemenu({ setActivePage }) {
             <GapComponents gapX="10px" />
             Professeur
           </Box>
-          <GapComponents gapY="15vh" />
         </SideMenuContent>
+        <SideMenuContentgap />
         <SideMenuContent>
           <img src={LightIllustration} alt="Illustration" width={240} />
+          <Box
+            active={activeLink === "parametre"}
+            onClick={() => handleLinkClick("parametre")}
+          >
+            <GearIcon />
+            <GapComponents gapX="10px" />
+            Parametre du compte
+          </Box>
         </SideMenuContent>
       </SideMenuContainer>
     </>

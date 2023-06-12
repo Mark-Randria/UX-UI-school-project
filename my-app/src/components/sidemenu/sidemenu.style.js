@@ -5,9 +5,9 @@ import { size } from "../../core/theme/breakpoints";
 export const SideMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 128px;
-  height: 100vh;
+  justify-content: space-between;
+  height: calc(100vh - 64px);
+  margin-bottom: 10px;
   width: 260px;
   position: fixed;
   z-index: 1;
@@ -18,7 +18,7 @@ export const SideMenuContainer = styled.div`
   background-color: ${(props) => props.theme.colors.gray2};
   color: ${(props) => props.theme.colors.slate12};
   
-  @media (max-width: ${size.mobileL}) {
+  @media (max-width: 560px) {
     display: none;
   }
 
@@ -26,6 +26,11 @@ export const SideMenuContainer = styled.div`
 
 export const SideMenuContent = styled.div`
   padding: 0.5rem;
+  flex-grow: 1;
+`;
+
+export const SideMenuContentgap = styled.div`
+  flex-grow: 7;
 `;
 
 export const Box = styled.div`

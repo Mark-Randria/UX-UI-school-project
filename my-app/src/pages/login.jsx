@@ -12,6 +12,7 @@ import {
   AboutInfo,
   PositionDiv,
   GapComponents,
+  PopUp,
 } from "./auth.style";
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
@@ -21,6 +22,7 @@ import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 export default function Login() {
   const [user, setUser] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [message, setMessage] = React.useState("");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -29,6 +31,37 @@ export default function Login() {
   function togglePasswordVisibility() {
     setShowPassword((prevState) => !prevState);
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!user || !password) {
+      setMessage("Veuillez remplir le formulaire");
+    } else {
+      const data = {
+        username: user,
+        password: password,
+      };
+
+      console.log(data.username, data.password);
+      const token = AuthService.login(data.username, data.password)
+        .then((response) => {
+          console.log(response);
+          Navigate("/");
+          setUser("");
+          setPassword("");
+          setMessage("");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleReset = (e) => {
+    setUser("");
+    setPassword("");
+    setMessage("");
+  };
 
   return (
     <>
@@ -80,12 +113,19 @@ export default function Login() {
             value={password}
             setValue={setPassword}
           />
-          <PositionDiv topdistance="50px">
-            <Button color="notimportant" width="10vw" minWidth="78px">
+
+          <PopUp>{message}</PopUp>
+          <PositionDiv topdistance="40px">
+            <Button
+              color="notimportant"
+              width="10vw"
+              minWidth="78px"
+              onClick={handleReset}
+            >
               Annuler
             </Button>
             <GapComponents gapX="73px" />
-            <Button width="10vw" minWidth="78px">
+            <Button width="10vw" minWidth="78px" onClick={handleSubmit}>
               Se connecter
             </Button>
           </PositionDiv>

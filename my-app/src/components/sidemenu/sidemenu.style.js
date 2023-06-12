@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components";
 
+import { size } from "../../core/theme/breakpoints";
+
 export const SideMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,6 +17,11 @@ export const SideMenuContainer = styled.div`
   padding-top: 20px;
   background-color: ${(props) => props.theme.colors.gray2};
   color: ${(props) => props.theme.colors.slate12};
+  
+  @media (max-width: ${size.mobileL}) {
+    display: none;
+  }
+
 `;
 
 export const SideMenuContent = styled.div`

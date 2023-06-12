@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
+import { size } from "../../core/theme/breakpoints";
+
 export const HeaderContainer = styled.div`
   top: 0;
+  z-index:10;
   position: sticky;
   display: flex;
   justify-content: space-between;
@@ -10,6 +13,7 @@ export const HeaderContainer = styled.div`
   border-color: ${(props) => props.theme.colors.gray6};
   border-width: 1px;
   border-style: none none solid none;
+
 `;
 
 export const LogoContainer = styled.div`

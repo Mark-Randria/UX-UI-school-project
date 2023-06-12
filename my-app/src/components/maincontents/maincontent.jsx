@@ -1,28 +1,32 @@
 import React from "react";
 
-import { GapComponents } from "./maincontent.style";
+import Timetable from "./contentvalue/timetable";
+import Teacher from "./contentvalue/teacher";
+import Subject from "./contentvalue/subject";
+import School from "./contentvalue/school";
+import Class from "./contentvalue/class";
 
 export default function Maincontent({ activePage }) {
   let content;
 
   switch (activePage) {
     case "emploi":
-      content = <div>This is the Emploi page.</div>;
+      content = <Timetable />;
       break;
     case "ecole":
-      content = <div>This is the Ecole page.</div>;
+      content = <School />;
       break;
     case "matiere":
-      content = <div>This is the Matiere page.</div>;
+      content = <Subject />;
       break;
     case "classe":
-      content = <div>This is the Classe page.</div>;
+      content = <Class />;
       break;
     case "professeur":
-      content = <div>This is the Professeur page.</div>;
+      content = <Teacher />;
       break;
     default:
-      content = <div>Invalid page.</div>;
+      content = <div>Oups ! page introuvable...</div>;
       break;
   }
 

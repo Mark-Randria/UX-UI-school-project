@@ -16,15 +16,20 @@ import {
   PersonIcon,
 } from "@radix-ui/react-icons";
 
-export default function Sidemenu() {
-  const [activeLink, setActiveLink] = React.useState("");
+export default function Sidemenu({ setActivePage }) {
+  const [activeLink, setActiveLink] = React.useState("emploi");
+
+  const handleLinkClick = (link) => {
+    setActiveLink(link);
+    setActivePage(link);
+  };
 
   return (
     <SideMenuContainer>
       <SideMenuContent>
         <Box
           active={activeLink === "emploi"}
-          onClick={() => setActiveLink("emploi")}
+          onClick={() => handleLinkClick("emploi")}
         >
           <ArchiveIcon />
           <GapComponents gapX="10px" />
@@ -33,7 +38,7 @@ export default function Sidemenu() {
         <GapComponents gapY="5px" />
         <Box
           active={activeLink === "ecole"}
-          onClick={() => setActiveLink("ecole")}
+          onClick={() => handleLinkClick("ecole")}
         >
           <BackpackIcon />
           <GapComponents gapX="10px" />
@@ -42,7 +47,7 @@ export default function Sidemenu() {
         <GapComponents gapY="5px" />
         <Box
           active={activeLink === "matiere"}
-          onClick={() => setActiveLink("matiere")}
+          onClick={() => handleLinkClick("matiere")}
         >
           <Pencil2Icon />
           <GapComponents gapX="10px" />
@@ -51,7 +56,7 @@ export default function Sidemenu() {
         <GapComponents gapY="5px" />
         <Box
           active={activeLink === "classe"}
-          onClick={() => setActiveLink("classe")}
+          onClick={() => handleLinkClick("classe")}
         >
           <HomeIcon />
           <GapComponents gapX="10px" />
@@ -60,13 +65,13 @@ export default function Sidemenu() {
         <GapComponents gapY="5px" />
         <Box
           active={activeLink === "professeur"}
-          onClick={() => setActiveLink("professeur")}
+          onClick={() => handleLinkClick("professeur")}
         >
           <PersonIcon />
           <GapComponents gapX="10px" />
           Professeur
         </Box>
-        <GapComponents gapY="5px" />
+        <GapComponents gapY="15vh" />
       </SideMenuContent>
       <SideMenuContent>
         <img src={LightIllustration} alt="Illustration" width={240} />

@@ -1,7 +1,5 @@
 import styled, { css } from "styled-components";
 
-import Illustration from "../../assets/Illustration.svg";
-
 export const SideMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,7 +22,7 @@ export const SideMenuContent = styled.div`
 `;
 
 export const Box = styled.div`
-margin-left: 5%;
+  margin-left: 5%;
   box-sizing: border-box;
   display: flex;
   height: 48px;
@@ -39,13 +37,16 @@ margin-left: 5%;
   border-radius: 0.5rem;
   border-style: none;
   font-weight: 600;
-  max-width: 162px;
+  max-width: 202px;
   ${(props) =>
     props.active &&
     css`
       background-color: ${(props) => props.theme.colors.tealA9};
       color: white;
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+      :hover {
+        background-color: ${(props) => props.theme.colors.tealA10};
+      }
     `}
 `;
 

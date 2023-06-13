@@ -16,6 +16,10 @@ import {
 } from "./auth.style";
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
@@ -23,6 +27,8 @@ export default function Login() {
   const [user, setUser] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
+
+  const [open, setOpen] = React.useState(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -32,10 +38,34 @@ export default function Login() {
     setShowPassword((prevState) => !prevState);
   }
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="info" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+    </React.Fragment>
+  );
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user || !password) {
       setMessage("Veuillez remplir le formulaire");
+      handleClick();
     } else {
       const data = {
         username: user,
@@ -58,6 +88,7 @@ export default function Login() {
   };
 
   const handleReset = (e) => {
+    handleClose();
     setUser("");
     setPassword("");
     setMessage("");
@@ -113,9 +144,11 @@ export default function Login() {
             value={password}
             setValue={setPassword}
           />
-
-          <PopUp>{message}</PopUp>
           <PositionDiv topdistance="40px">
+            <Button width="10vw" minWidth="78px" onClick={handleSubmit}>
+              Se connecter
+            </Button>
+            <GapComponents gapX="73px" />
             <Button
               color="notimportant"
               width="10vw"
@@ -124,12 +157,23 @@ export default function Login() {
             >
               Annuler
             </Button>
-            <GapComponents gapX="73px" />
-            <Button width="10vw" minWidth="78px" onClick={handleSubmit}>
-              Se connecter
-            </Button>
           </PositionDiv>
         </RightGrid>
+        <Snackbar
+          open={open}
+          autoHideDuration={2000}
+          onClose={handleClose}
+          message={message}
+          action={action}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
       </Container>
     </>
   );

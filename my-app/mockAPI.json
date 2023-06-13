@@ -1,9 +1,27 @@
 {
-    "posts": [
-      { "id": 1, "title": "json-server", "author": "typicode" }
+    "professeurs": [
+      { "id": 1, "nom": "Jean", "prenom": "Ba", "disponibilite": false },
+      { "id": 2, "nom": "Ngiah", "prenom": "Zouk", "disponibilite": true },
+      { "id": 3, "nom": "Quande", "prenom": "McBug", "disponibilite": true },
+      { "id": 4, "nom": "Raoul", "prenom": "Roberto", "disponibilite": true }
     ],
-    "comments": [
-      { "id": 1, "body": "some comment", "postId": 1 }
+    "classes": [
+      { "id": 1, "nomClasse": "L1", "disponibilite": false },
+      { "id": 2, "nomClasse": "L2", "disponibilite": true },
+      { "id": 3, "nomClasse": "L3", "disponibilite": false },
+      { "id": 4, "nomClasse": "M1", "disponibilite": true },
+      { "id": 5, "nomClasse": "M2", "disponibilite": false }
     ],
-    "profile": { "name": "typicode" }
+    "salles": [
+      { "id": 1, "abbreviationSalle": "Salle_001", "disponibilite": true },
+      { "id": 2, "abbreviationSalle": "Salle_002", "disponibilite": false },
+      { "id": 3, "abbreviationSalle": "Salle_003", "disponibilite": true },
+      { "id": 4, "abbreviationSalle": "Salle_004", "disponibilite": false }
+    ],
+    "matieres": [
+      { "id": 1, "abbreviationMatiere": "ANAL", "NomMatiere": "Analyse" },
+      { "id": 2, "abbreviationMatiere": "ALGO", "NomMatiere": "Algorithme" },
+      { "id": 3, "abbreviationMatiere": "ALG", "NomMatiere": "Algebre" },
+      { "id": 4, "abbreviationMatiere": "C++", "NomMatiere": "Language C++" }
+    ]
   }

@@ -108,12 +108,12 @@ export default function Login() {
             setValue={setConfirmPassword}
           />
           <PositionDiv topdistance="50px">
-            <Button color="notimportant" width="10vw" minWidth="78px">
-              Annuler
-            </Button>
-            <GapComponents gapX="73px" />
             <Button width="10vw" minWidth="78px">
               Se connecter
+            </Button>
+            <GapComponents gapX="73px" />
+            <Button color="notimportant" width="10vw" minWidth="78px">
+              Annuler
             </Button>
           </PositionDiv>
         </RightGrid>

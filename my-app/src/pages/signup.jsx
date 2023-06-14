@@ -38,8 +38,6 @@ export default function Login() {
   let isValidEmail = emailRegex.test(email);
   let isValidPassword = passwordRegex.test(password);
 
-  console.log(isValidEmail);
-
   const Navigate = useNavigate();
   const handleClick = () => {
     setOpen(true);
@@ -76,9 +74,10 @@ export default function Login() {
       const data = {
         username: user,
         password: password,
+        email: email,
       };
 
-      console.log(data.username, data.password);
+      console.log(data.username, data.password, data.email);
       const token = AuthService.login(data.username, data.password)
         .then((response) => {
           console.log(response);
@@ -105,6 +104,8 @@ export default function Login() {
     handleClose();
     setUser("");
     setPassword("");
+    setEmail("");
+    setConfirmPassword("")
     setMessage("");
   };
 

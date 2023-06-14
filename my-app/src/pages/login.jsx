@@ -14,12 +14,9 @@ import {
   GapComponents,
   PopUp,
 } from "./auth.style";
+import Alert from "../components/alerts/alert";
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-
-import { SnackbarProvider, useSnackbar } from "notistack";
 
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
@@ -29,6 +26,7 @@ export default function Login() {
   const [message, setMessage] = React.useState("");
 
   const [open, setOpen] = React.useState(false);
+  const [severity, setSeverity] = React.useState("");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -49,22 +47,11 @@ export default function Login() {
     setOpen(false);
   };
 
-  const action = (
-    <React.Fragment>
-      <Button color="info" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-    </React.Fragment>
-  );
-
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user || !password) {
       setMessage("Veuillez remplir le formulaire");
+      setSeverity("error");
       handleClick();
     } else {
       const data = {
@@ -76,6 +63,9 @@ export default function Login() {
       const token = AuthService.login(data.username, data.password)
         .then((response) => {
           console.log(response);
+          setMessage("Connexion reussie");
+          setSeverity("success");
+          handleClick();
           Navigate("/");
           setUser("");
           setPassword("");
@@ -83,6 +73,9 @@ export default function Login() {
         })
         .catch((error) => {
           console.log(error);
+          setSeverity("error");
+          setMessage("Probleme de connexion au serveur");
+          handleClick();
         });
     }
   };
@@ -159,21 +152,7 @@ export default function Login() {
             </Button>
           </PositionDiv>
         </RightGrid>
-        <Snackbar
-          open={open}
-          autoHideDuration={2000}
-          onClose={handleClose}
-          message={message}
-          action={action}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            {message}
-          </Alert>
-        </Snackbar>
+        <Alert open={open} setOpen={setOpen} message={message} severity={severity} />
       </Container>
     </>
   );

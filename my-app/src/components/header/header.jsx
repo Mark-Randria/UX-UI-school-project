@@ -1,5 +1,8 @@
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+import { AuthService } from "../../services/auth-service";
+
 import {
   SunIcon,
   MoonIcon,
@@ -23,10 +26,19 @@ export default function Header() {
 
   const [isDarkMode, setIsDarkMode] = React.useState(false);
 
+  const user = JSON.parse(sessionStorage.getItem("token"));
+
+  const Navigate = useNavigate();
+
   const handleThemeToggle = () => {
     setIsDarkMode(!isDarkMode);
     toogleTheme();
   };
+
+  const logOut = () => {
+    AuthService.logout();
+    window.location.reload();
+  }
 
   React.useEffect(() => {
     const currentTheme = JSON.parse(
@@ -57,13 +69,13 @@ export default function Header() {
           <GapComponents gapX="5px" />
           <AvatarIcon width={24} height={24} />
           <GapComponents gapX="10px" />
-          <p>RANDRIA Mark</p>
+          <p>{user.user}</p>
           <GapComponents gapX="10px" />
           <DividerVerticalIcon width={24} height={24} />
         </Box>
         <Box>
           <GapComponents gapX="5px" />
-          <ExitIcon width={16} height={16} />
+          <ExitIcon width={16} height={16} onClick={logOut}/>
           <GapComponents gapX="20px" />
         </Box>
       </HeaderComponents>

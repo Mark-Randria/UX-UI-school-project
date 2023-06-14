@@ -12,13 +12,12 @@ let login = async (identity, password) => {
   );
   let user = response.data[0];
   if (user) {
-    console.log(user);
-    const expirationTime = Date.now() + 1 * 60 * 1000;
+    const expirationTime = Date.now() + 1 * 5 * 1000;
     const FakeToken = {
+      user: user.identity,
       token: "fake-token",
       expiresAt: expirationTime,
     };
-    console.log(JSON.stringify(FakeToken));
     sessionStorage.setItem("token", JSON.stringify(FakeToken));
   }
   return user;

@@ -3,27 +3,32 @@ import { BASE_URL } from "./constant/url";
 // import { useNavigate } from "react-router-dom";
 
 let login = async (identity, password) => {
-  const response = await axios.post(BASE_URL + "/users/login", {
-    identity,
-    password,
-  });
-  if (response.data) {
-    console.log(response.data);
-    sessionStorage.setItem("token", JSON.stringify(response.data.token));
+  const response = await axios.get(
+    BASE_URL + `/comptes?identity=${identity}&password=${password}`,
+    {
+      identity,
+      password,
+    }
+  );
+  let user = response.data[0];
+  if (user) {
+    console.log(user);
+    const expirationTime = Date.now() + 1 * 60 * 1000;
+    const FakeToken = {
+      token: "fake-token",
+      expiresAt: expirationTime,
+    };
+    console.log(JSON.stringify(FakeToken));
+    sessionStorage.setItem("token", JSON.stringify(FakeToken));
   }
-  return response.data.token;
+  return user;
 };
 
 let logout = () => {
   removeToken();
 };
 
-let signup = async (
-  username,
-  email,
-  password,
-  avatar
-) => {
+let signup = async (username, email, password, avatar) => {
   return axios.post(BASE_URL + "/users/signup", {
     username,
     email,
@@ -38,12 +43,14 @@ let isLogged = () => {
   if (!token) {
     return false;
   } else {
-    const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    console.log(decodedToken);
-    const currentTime = Date.now() / 1000;
+    const parsedToken = JSON.parse(token);
+    const expirationTime = parsedToken.expiresAt;
 
-    if (decodedToken.exp < currentTime) {
-      sessionStorage.removeItem("token");
+    // Check if the token has expired
+    const currentTime = Date.now();
+    if (currentTime > expirationTime) {
+      // Token has expired, remove it from session storage
+      removeToken();
       return false;
     }
   }
@@ -55,7 +62,7 @@ let saveToken = (token) => {
   sessionStorage.setItem("token", token);
 };
 
-let removeToken = ()=> {
+let removeToken = () => {
   sessionStorage.removeItem("token");
 };
 

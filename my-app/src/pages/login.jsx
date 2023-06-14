@@ -59,17 +59,22 @@ export default function Login() {
         password: password,
       };
 
-      console.log(data.username, data.password);
       const token = AuthService.login(data.username, data.password)
         .then((response) => {
           console.log(response);
-          setMessage("Connexion reussie");
-          setSeverity("success");
-          handleClick();
-          Navigate("/");
-          setUser("");
-          setPassword("");
-          setMessage("");
+          if (response === null || response === undefined) {
+            setMessage("Ce compte n'existe pas");
+            setSeverity("warning");
+            handleClick();
+          } else {
+            setMessage("Connexion reussie");
+            setSeverity("success");
+            handleClick();
+            Navigate("/Dashboard");
+            setUser("");
+            setPassword("");
+            setMessage("");
+          }
         })
         .catch((error) => {
           console.log(error);

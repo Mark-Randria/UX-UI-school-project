@@ -152,7 +152,12 @@ export default function Login() {
             </Button>
           </PositionDiv>
         </RightGrid>
-        <Alert open={open} setOpen={setOpen} message={message} severity={severity} />
+        <Alert
+          open={open}
+          setOpen={setOpen}
+          message={message}
+          severity={severity}
+        />
       </Container>
     </>
   );

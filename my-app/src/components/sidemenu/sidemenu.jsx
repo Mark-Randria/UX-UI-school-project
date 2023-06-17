@@ -9,8 +9,6 @@ import {
   GapComponents,
 } from "./sidemenu.style";
 
-import Button from "../buttons/button";
-
 import {
   ArchiveIcon,
   BackpackIcon,

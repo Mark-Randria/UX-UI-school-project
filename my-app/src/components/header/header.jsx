@@ -37,6 +37,7 @@ export default function Header() {
 
   const logOut = () => {
     AuthService.logout();
+    sessionStorage.removeItem("isDarkMode");
     window.location.reload();
   }
 

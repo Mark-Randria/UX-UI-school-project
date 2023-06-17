@@ -30,6 +30,25 @@ export const Container = styled.div`
 
 export const Grid = styled.div``;
 
+export const BigBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+  h1 {
+    color: ${(props) => props.theme.colors.slate12};
+    text-align: center;
+  }
+
+  img {
+    padding: 0 5% 5% 5%;
+    box-sizing: border-box;
+  }
+`
+
 export const LeftGrid = styled(Grid)`
   background-image: url(${BgFrameSvg});
   grid-column-start: 1;
@@ -170,7 +189,6 @@ export const PopUp = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* margin: 0.5rem; */
     margin-top: 1rem;
     color: red;
 `

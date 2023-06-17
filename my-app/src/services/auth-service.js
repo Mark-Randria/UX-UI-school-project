@@ -45,10 +45,8 @@ let isLogged = () => {
     const parsedToken = JSON.parse(token);
     const expirationTime = parsedToken.expiresAt;
 
-    // Check if the token has expired
     const currentTime = Date.now();
     if (currentTime > expirationTime) {
-      // Token has expired, remove it from session storage
       removeToken();
       return false;
     }

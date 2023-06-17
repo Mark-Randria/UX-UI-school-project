@@ -96,6 +96,9 @@ export default function Sidemenu({ setActivePage }) {
             Parametre du compte
           </Box>
         </SideMenuContent>
+        <SideMenuContent>
+          <GapComponents gapY="5px" />
+        </SideMenuContent>
       </SideMenuContainer>
     </>
   );

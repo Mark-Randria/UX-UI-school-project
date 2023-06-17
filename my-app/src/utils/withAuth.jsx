@@ -1,20 +1,17 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { AuthService } from "../services/auth-service";
 
 const withAuth = (WrappedComponent) => {
   const Auth = (props) => {
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = React.useState(true);
 
-    useEffect(() => {
+    React.useEffect(() => {
       const isLoggedIn = AuthService.isLogged();
 
       if (!isLoggedIn) {
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 10000);
+          navigate("/Login");
       } else {
         setIsLoading(false);
       }

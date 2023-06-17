@@ -12,7 +12,9 @@ import {
   AboutInfo,
   PositionDiv,
   GapComponents,
+  PopUp,
 } from "./auth.style";
+import Alert from "../components/alerts/alert";
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
 
@@ -21,6 +23,10 @@ import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 export default function Login() {
   const [user, setUser] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [message, setMessage] = React.useState("");
+
+  const [open, setOpen] = React.useState(false);
+  const [severity, setSeverity] = React.useState("");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -29,6 +35,62 @@ export default function Login() {
   function togglePasswordVisibility() {
     setShowPassword((prevState) => !prevState);
   }
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!user || !password) {
+      setMessage("Veuillez remplir le formulaire");
+      setSeverity("error");
+      handleClick();
+    } else {
+      const data = {
+        username: user,
+        password: password,
+      };
+
+      const token = AuthService.login(data.username, data.password)
+        .then((response) => {
+          console.log(response);
+          if (response === null || response === undefined) {
+            setMessage("Ce compte n'existe pas");
+            setSeverity("warning");
+            handleClick();
+          } else {
+            setMessage("Connexion reussie");
+            setSeverity("success");
+            handleClick();
+            Navigate("/Dashboard");
+            setUser("");
+            setPassword("");
+            setMessage("");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setSeverity("error");
+          setMessage("Probleme de connexion au serveur");
+          handleClick();
+        });
+    }
+  };
+
+  const handleReset = (e) => {
+    handleClose();
+    setUser("");
+    setPassword("");
+    setMessage("");
+  };
 
   return (
     <>
@@ -42,6 +104,7 @@ export default function Login() {
             <Button
               color="info"
               width="82px"
+              minWidth="78px"
               onClick={() => Navigate("/Signup")}
             >
               S&apos;inscrire
@@ -79,14 +142,27 @@ export default function Login() {
             value={password}
             setValue={setPassword}
           />
-          <PositionDiv topdistance="50px">
-            <Button color="notimportant" width="10vw">
-              Annuler
+          <PositionDiv topdistance="40px">
+            <Button width="10vw" minWidth="78px" onClick={handleSubmit}>
+              Se connecter
             </Button>
             <GapComponents gapX="73px" />
-            <Button width="10vw">Se connecter</Button>
+            <Button
+              color="notimportant"
+              width="10vw"
+              minWidth="78px"
+              onClick={handleReset}
+            >
+              Annuler
+            </Button>
           </PositionDiv>
         </RightGrid>
+        <Alert
+          open={open}
+          setOpen={setOpen}
+          message={message}
+          severity={severity}
+        />
       </Container>
     </>
   );

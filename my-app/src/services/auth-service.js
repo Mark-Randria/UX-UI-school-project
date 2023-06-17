@@ -3,27 +3,31 @@ import { BASE_URL } from "./constant/url";
 // import { useNavigate } from "react-router-dom";
 
 let login = async (identity, password) => {
-  const response = await axios.post(BASE_URL + "/users/login", {
-    identity,
-    password,
-  });
-  if (response.data) {
-    console.log(response.data);
-    localStorage.setItem("token", JSON.stringify(response.data.token));
+  const response = await axios.get(
+    BASE_URL + `/comptes?identity=${identity}&password=${password}`,
+    {
+      identity,
+      password,
+    }
+  );
+  let user = response.data[0];
+  if (user) {
+    const expirationTime = Date.now() + 1 * 5 * 1000;
+    const FakeToken = {
+      user: user.identity,
+      token: "fake-token",
+      expiresAt: expirationTime,
+    };
+    sessionStorage.setItem("token", JSON.stringify(FakeToken));
   }
-  return response.data.token;
+  return user;
 };
 
 let logout = () => {
   removeToken();
 };
 
-let signup = async (
-  username,
-  email,
-  password,
-  avatar
-) => {
+let signup = async (username, email, password, avatar) => {
   return axios.post(BASE_URL + "/users/signup", {
     username,
     email,
@@ -38,12 +42,12 @@ let isLogged = () => {
   if (!token) {
     return false;
   } else {
-    const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    console.log(decodedToken);
-    const currentTime = Date.now() / 1000;
+    const parsedToken = JSON.parse(token);
+    const expirationTime = parsedToken.expiresAt;
 
-    if (decodedToken.exp < currentTime) {
-      localStorage.removeItem("token");
+    const currentTime = Date.now();
+    if (currentTime > expirationTime) {
+      removeToken();
       return false;
     }
   }
@@ -52,15 +56,15 @@ let isLogged = () => {
 };
 
 let saveToken = (token) => {
-  localStorage.setItem("token", token);
+  sessionStorage.setItem("token", token);
 };
 
-let removeToken = ()=> {
-  localStorage.removeItem("token");
+let removeToken = () => {
+  sessionStorage.removeItem("token");
 };
 
 let getToken = () => {
-  return localStorage.getItem("token");
+  return sessionStorage.getItem("token");
 };
 
 export const AuthService = {

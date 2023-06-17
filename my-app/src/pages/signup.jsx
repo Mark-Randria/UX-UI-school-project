@@ -15,6 +15,7 @@ import {
 } from "./auth.style";
 import Input from "../components/inputs/input";
 import Button from "../components/buttons/button";
+import Alert from "../components/alerts/alert";
 
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
@@ -23,10 +24,90 @@ export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [message, setMessage] = React.useState("");
+
+  const [open, setOpen] = React.useState(false);
+  const [severity, setSeverity] = React.useState("");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+  let isValidEmail = emailRegex.test(email);
+  let isValidPassword = passwordRegex.test(password);
+
   const Navigate = useNavigate();
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!user || !password || !email || !confirmPassword) {
+      setMessage("Veuillez remplir le formulaire");
+      setSeverity("error");
+      handleClick();
+    } else if (password !== confirmPassword) {
+      setMessage("Verifier votre mot de passe");
+      setSeverity("error");
+      handleClick();
+    } else if (!isValidEmail) {
+      setMessage("Veuiller saisir une adresse email valide");
+      setSeverity("error");
+      handleClick();
+    } else if (!isValidPassword || password.length < 8) {
+      setMessage(
+        "Le mot de passe doit contenir au moins une Majuscule, une minuscule et un nombre avec 8 caractères minimums"
+      );
+      setSeverity("error");
+      handleClick();
+    } else {
+      const data = {
+        username: user,
+        password: password,
+        email: email,
+      };
+
+      console.log(data.username, data.password, data.email);
+      const token = AuthService.login(data.username, data.password)
+        .then((response) => {
+          console.log(response);
+          setMessage("Connexion reussie");
+          setSeverity("success");
+          handleClick();
+          Navigate("/");
+          setUser("");
+          setConfirmPassword("");
+          setEmail("");
+          setPassword("");
+          setMessage("");
+        })
+        .catch((error) => {
+          console.log(error);
+          setSeverity("error");
+          setMessage("Probleme de connexion au serveur");
+          handleClick();
+        });
+    }
+  };
+
+  const handleReset = (e) => {
+    handleClose();
+    setUser("");
+    setPassword("");
+    setEmail("");
+    setConfirmPassword("")
+    setMessage("");
+  };
 
   function togglePasswordVisibility() {
     setShowPassword((prevState) => !prevState);
@@ -44,6 +125,7 @@ export default function Login() {
             <Button
               color="info"
               width="82px"
+              minWidth="78px"
               onClick={() => Navigate("/Login")}
             >
               Se connecter
@@ -107,13 +189,26 @@ export default function Login() {
             setValue={setConfirmPassword}
           />
           <PositionDiv topdistance="50px">
-            <Button color="notimportant" width="10vw">
-              Annuler
+            <Button width="10vw" minWidth="78px" onClick={handleSubmit}>
+              Se connecter
             </Button>
             <GapComponents gapX="73px" />
-            <Button width="10vw">Se connecter</Button>
+            <Button
+              color="notimportant"
+              width="10vw"
+              minWidth="78px"
+              onClick={handleReset}
+            >
+              Annuler
+            </Button>
           </PositionDiv>
         </RightGrid>
+        <Alert
+          open={open}
+          setOpen={setOpen}
+          message={message}
+          severity={severity}
+        />
       </Container>
     </>
   );

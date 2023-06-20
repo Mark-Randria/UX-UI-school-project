@@ -32,3 +32,30 @@ export const GapComponents = styled.div`
   width: ${(props) => props.gapX};
   height: ${(props) => props.gapY};
 `;
+
+export const ScheduleTableContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+`;
+
+export const ScheduleTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+export const ScheduleTableHeader = styled.th`
+  padding: 10px;
+  background-color: #f2f2f2;
+  text-align: left;
+`;
+
+export const ScheduleTableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+`;
+
+export const ScheduleTableCell = styled.td`
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+`;

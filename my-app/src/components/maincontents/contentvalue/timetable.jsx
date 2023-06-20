@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import {
   Title,
@@ -11,7 +12,6 @@ import {
   ScheduleTableRow,
   ScheduleTableCell,
 } from "../maincontent.style";
-import axios from "axios";
 
 export default function Timetable() {
   const [scheduleData, setScheduleData] = React.useState(null);

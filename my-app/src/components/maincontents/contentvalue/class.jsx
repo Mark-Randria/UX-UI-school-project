@@ -24,6 +24,7 @@ export default function Class() {
   if (classData === null) {
     return <div>Loading...</div>;
   }
+  console.log(classData);
   return (
     <Container>
       <Title>Classe</Title>

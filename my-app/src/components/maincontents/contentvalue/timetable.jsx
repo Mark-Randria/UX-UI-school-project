@@ -14,7 +14,6 @@ import {
 import axios from "axios";
 
 export default function Timetable() {
-  const [data, setData] = React.useState(null);
   const [scheduleData, setScheduleData] = React.useState(null);
 
   React.useEffect(() => {

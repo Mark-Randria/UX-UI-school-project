@@ -24,7 +24,6 @@ export const Container = styled.div`
   }
   @media (max-width: ${size.tablet}) {
     background-image: url(${BgFrameSvg});
-    background-color: red;
   }
 `;
 

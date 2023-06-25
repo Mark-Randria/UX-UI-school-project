@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { DataGrid } from "@mui/x-data-grid";
 
 export const Title = styled.div`
   padding: 2rem;
@@ -31,4 +32,15 @@ export const Box = styled.div`
 export const GapComponents = styled.div`
   width: ${(props) => props.gapX};
   height: ${(props) => props.gapY};
+`;
+
+export const StyledColumnHeader = styled.div`
+  color: ${(props) => props.theme.colors.slate12};
+  font-weight: 500;
+`;
+
+export const StyledDataGrid = styled(DataGrid)`
+  .MuiDataGrid-cell {
+    color: ${(props) => props.theme.colors.slate12};
+  }
 `;

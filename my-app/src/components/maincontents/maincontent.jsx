@@ -5,6 +5,7 @@ import Teacher from "./contentvalue/teacher";
 import Subject from "./contentvalue/subject";
 import School from "./contentvalue/school";
 import Class from "./contentvalue/class";
+import Room from "./contentvalue/room";
 
 export default function Maincontent({ activePage }) {
   let content;
@@ -12,6 +13,9 @@ export default function Maincontent({ activePage }) {
   switch (activePage) {
     case "emploi":
       content = <Timetable />;
+      break;
+    case "salle":
+      content = <Room />;
       break;
     case "ecole":
       content = <School />;

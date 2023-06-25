@@ -49,12 +49,12 @@ export default function Sidemenu({ setActivePage }) {
           </Box>
           <GapComponents gapY="5px" />
           <Box
-            active={activeLink === "ecole"}
-            onClick={() => handleLinkClick("ecole")}
+            active={activeLink === "salle"}
+            onClick={() => handleLinkClick("salle")}
           >
-            <BackpackIcon />
+            <HomeIcon />
             <GapComponents gapX="10px" />
-            Ecole
+            Salle
           </Box>
           <GapComponents gapY="5px" />
           <Box
@@ -70,7 +70,7 @@ export default function Sidemenu({ setActivePage }) {
             active={activeLink === "classe"}
             onClick={() => handleLinkClick("classe")}
           >
-            <HomeIcon />
+            <BackpackIcon />
             <GapComponents gapX="10px" />
             Classe
           </Box>
@@ -95,6 +95,9 @@ export default function Sidemenu({ setActivePage }) {
             <GapComponents gapX="10px" />
             Parametre du compte
           </Box>
+        </SideMenuContent>
+        <SideMenuContent>
+          <GapComponents gapY="5px" />
         </SideMenuContent>
       </SideMenuContainer>
     </>

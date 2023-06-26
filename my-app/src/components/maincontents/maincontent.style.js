@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { DataGrid } from "@mui/x-data-grid";
 
 export const Title = styled.div`
   padding: 2rem;
@@ -33,29 +34,13 @@ export const GapComponents = styled.div`
   height: ${(props) => props.gapY};
 `;
 
-export const ScheduleTableContainer = styled.div`
-  width: 100%;
-  overflow-x: auto;
+export const StyledColumnHeader = styled.div`
+  color: ${(props) => props.theme.colors.slate12};
+  font-weight: 500;
 `;
 
-export const ScheduleTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-export const ScheduleTableHeader = styled.th`
-  padding: 10px;
-  background-color: #f2f2f2;
-  text-align: left;
-`;
-
-export const ScheduleTableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f9f9f9;
+export const StyledDataGrid = styled(DataGrid)`
+  .MuiDataGrid-cell {
+    color: ${(props) => props.theme.colors.slate12};
   }
-`;
-
-export const ScheduleTableCell = styled.td`
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
 `;

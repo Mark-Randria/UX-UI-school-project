@@ -9,18 +9,22 @@ import {
   GapComponents,
   StyledColumnHeader,
   StyledDataGrid,
-  CustomModal,
 } from "../maincontent.style";
 
 import { Pencil2Icon, Cross1Icon } from "@radix-ui/react-icons";
 
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+
 import Button from "../../buttons/button";
+import Input from "../../inputs/input";
 import Modal from "../../modals/modals";
 
 import { frFR } from "@mui/x-data-grid";
 
 export default function Timetable() {
-  const [scheduleData, setScheduleData] = React.useState(null);
+  const [scheduleData, setScheduleData] = React.useState([]);
 
   const [rows, setRows] = React.useState([]);
   const [selectedRow, setSelectedRow] = React.useState([]);
@@ -30,12 +34,40 @@ export default function Timetable() {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
 
+  const [hours, setHours] = React.useState([]);
+  const [selectedHour, setSelectedHour] = React.useState("");
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_emploi_ko.php"
+        );
+
+        const responseHours = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_heure.php"
+        );
+        setScheduleData(response.data);
+        setRows(response.data);
+        setHours(responseHours.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const openModal = () => {
     setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const handleChangeHours = (event) => {
+    setSelectedHour(event.target.value);
   };
 
   const handleAdd = () => {
@@ -58,6 +90,62 @@ export default function Timetable() {
     setTitle("Suppression de l'emploi du temps");
     setDescription("Voulez-vous supprimer cet emploi du temps ?");
   };
+
+  const handleChangeJSX = (
+    <>
+      <Input
+        label="Classe"
+        id="Classe"
+        placeholder="Ex: L2 PRO"
+        type="text"
+        value={selectedRow.Nom_Classe}
+        setValue={(value) =>
+          setSelectedRow({ ...selectedRow, Nom_Classe: value })
+        }
+      />
+      <GapComponents gapY="10px" />
+      <Input
+        label="Semaine"
+        id="Semaine"
+        type="text"
+        value={selectedRow.Semaine}
+        setValue={(value) => setSelectedRow({ ...selectedRow, Semaine: value })}
+      />
+      <GapComponents gapY="10px" />
+      <Input
+        label="Jour"
+        id="Jour"
+        type="text"
+        value={selectedRow.Nom_Jour}
+        setValue={(value) =>
+          setSelectedRow({ ...selectedRow, Nom_Jour: value })
+        }
+      />
+      <GapComponents gapY="10px" />
+      <Input
+        label="Salle"
+        id="Salle"
+        type="text"
+        value={selectedRow.Nom_Salle}
+        setValue={(value) =>
+          setSelectedRow({ ...selectedRow, Nom_Salle: value })
+        }
+      />
+      <GapComponents gapY="10px" />
+      <Box>
+        <Select value={selectedHour} onChange={handleChangeHours}>
+          {console.log(hours)}
+          {hours &&
+            hours.map((data, index) => (
+              <MenuItem key={index} value={data.ID_Horaire}>
+                {`${data.Debut_Horaire || ""} - ${data.Fin_Horaire || ""}  `}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box>
+      <GapComponents gapY="10px" />
+    </>
+  );
 
   const dayNameComparator = (dayName1, dayName2) => {
     const dayOrder = {
@@ -150,24 +238,7 @@ export default function Timetable() {
     },
   ];
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://192.168.43.252/backend_IHM/api/api_emploi_ko.php"
-        );
-        setScheduleData(response.data);
-        setRows(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (scheduleData === null) {
+  if (scheduleData === null && hours === null) {
     return <div>Loading...</div>;
   }
 
@@ -181,6 +252,7 @@ export default function Timetable() {
           title={title}
           description={description}
           data={selectedRow}
+          inputComponents={handleChangeJSX}
         />
         <Box>
           <StyledDataGrid

@@ -8,7 +8,7 @@ export const CustomModal = styled(Modal)`
 
 export const Box = styled.div`
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;

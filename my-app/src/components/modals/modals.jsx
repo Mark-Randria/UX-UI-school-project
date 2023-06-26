@@ -4,7 +4,14 @@ import { CustomModal, Box, Title, Description } from "./modals.style";
 
 import Button from "../buttons/button";
 
-export default function Modal({ open, closeModal, title, description, data }) {
+export default function Modal({
+  open,
+  closeModal,
+  title,
+  description,
+  data,
+  inputComponents,
+}) {
   return (
     <CustomModal
       open={open}
@@ -16,6 +23,7 @@ export default function Modal({ open, closeModal, title, description, data }) {
         {console.log(data)}
         <Title id="modal-modal-title">{title}</Title>
         <Description id="modal-modal-description">{description}</Description>
+        {inputComponents}
         <Button onClick={closeModal}>Fermer</Button>
       </Box>
     </CustomModal>

@@ -37,6 +37,9 @@ export default function Timetable() {
   const [hours, setHours] = React.useState([]);
   const [selectedHour, setSelectedHour] = React.useState("");
 
+  const [rooms, setRooms] = React.useState([]);
+  const [selectedRoom, setSelectedRoom] = React.useState("");
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,9 +50,13 @@ export default function Timetable() {
         const responseHours = await axios.get(
           "http://192.168.43.252/backend_IHM/api/api_heure.php"
         );
+        const responseRooms = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_salle.php"
+        );
         setScheduleData(response.data);
         setRows(response.data);
         setHours(responseHours.data);
+        setRooms(responseRooms.data);
       } catch (error) {
         console.log(error);
       }
@@ -64,10 +71,15 @@ export default function Timetable() {
 
   const closeModal = () => {
     setIsOpen(false);
+    setSelectedHour("");
   };
 
   const handleChangeHours = (event) => {
     setSelectedHour(event.target.value);
+  };
+
+  const handleChangeRooms = (event) => {
+    setSelectedRoom(event.target.value);
   };
 
   const handleAdd = () => {
@@ -122,18 +134,30 @@ export default function Timetable() {
         }
       />
       <GapComponents gapY="10px" />
-      <Input
-        label="Salle"
-        id="Salle"
-        type="text"
-        value={selectedRow.Nom_Salle}
-        setValue={(value) =>
-          setSelectedRow({ ...selectedRow, Nom_Salle: value })
-        }
-      />
+      <Box>
+        <InputLabel id="Room-label">Salle</InputLabel>
+        <Select
+          labelId="Room-label"
+          value={selectedRoom}
+          onChange={handleChangeRooms}
+        >
+          {console.log(hours)}
+          {rooms &&
+            rooms.map((data, index) => (
+              <MenuItem key={index} value={data.ID_Salle}>
+                {data.Nom_Salle}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box>
       <GapComponents gapY="10px" />
       <Box>
-        <Select value={selectedHour} onChange={handleChangeHours}>
+        <InputLabel id="Hour-label">Plage Horaire</InputLabel>
+        <Select
+          labelId="Hour-label"
+          value={selectedHour}
+          onChange={handleChangeHours}
+        >
           {console.log(hours)}
           {hours &&
             hours.map((data, index) => (

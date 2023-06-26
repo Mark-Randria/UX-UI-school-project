@@ -63,7 +63,7 @@ export default function Sidemenu({ setActivePage }) {
           >
             <Pencil2Icon />
             <GapComponents gapX="10px" />
-            Matiere
+            Matière
           </Box>
           <GapComponents gapY="5px" />
           <Box

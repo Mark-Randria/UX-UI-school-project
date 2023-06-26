@@ -20,12 +20,22 @@ export const Container = styled.div`
 `;
 
 export const Box = styled.div`
+  flex-direction: column;
   box-sizing: border-box;
   display: flex;
   padding: 24px;
   margin: 24px;
   background-color: ${(props) => props.theme.colors.gray2};
   border-radius: 5px;
+`;
+
+export const BoxIcons = styled(Box)`
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
+  align-items: center;
 `;
 
 // GapComponents is used to make a space between components
@@ -40,7 +50,25 @@ export const StyledColumnHeader = styled.div`
 `;
 
 export const StyledDataGrid = styled(DataGrid)`
-  .MuiDataGrid-cell {
-    color: ${(props) => props.theme.colors.slate12};
+  && {
+    .MuiDataGrid-cell {
+      color: ${(props) => props.theme.colors.slate12};
+    }
+
+    .MuiDataGrid-root {
+      color: ${(props) => props.theme.colors.gray11};
+    }
+    p {
+      color: ${(props) => props.theme.colors.slate12};
+    }
+    .MuiButtonBase-root {
+      color: ${(props) => props.theme.colors.gray11};
+      &:disabled {
+        color: ${(props) => props.theme.colors.gray9};
+      }
+    }
+    .MuiSelect-select {
+      color: ${(props) => props.theme.colors.gray12};
+    }
   }
 `;

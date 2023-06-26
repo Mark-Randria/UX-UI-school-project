@@ -29,7 +29,7 @@ export default function Subject() {
 
   return (
     <Container>
-      <Title>Matiere</Title>
+      <Title>Matière</Title>
       <Box>Content boiiii</Box>
     </Container>
   );

@@ -5,31 +5,58 @@ import {
   Title,
   Container,
   Box,
+  BoxIcons,
   GapComponents,
   StyledColumnHeader,
   StyledDataGrid,
+  CustomModal,
 } from "../maincontent.style";
 
+import { Pencil2Icon, Cross1Icon } from "@radix-ui/react-icons";
+
 import Button from "../../buttons/button";
+import Modal from "../../modals/modals";
 
 import { frFR } from "@mui/x-data-grid";
 
 export default function Timetable() {
   const [scheduleData, setScheduleData] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
 
   const [rows, setRows] = React.useState([]);
   const [selectedRow, setSelectedRow] = React.useState([]);
 
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleAdd = () => {
+    setSelectedRow([]);
+    openModal();
+    setTitle("Ajout emploi du temps");
+    setDescription("Veuiller ajouter une nouvelle emploi du temps");
+  };
+
   const handleChange = (row) => {
-    console.log("Changed clicked for row:", row);
-    setOpen(true);
     setSelectedRow(row);
+    openModal();
+    setTitle("Modification de l'emploi du temps");
+    setDescription("Veuiller modifier les valeurs");
   };
 
   const HandleDelete = (row) => {
-    console.log("Delete clicked for row:", row);
     setSelectedRow(row);
+    openModal();
+    setTitle("Suppression de l'emploi du temps");
+    setDescription("Voulez-vous supprimer cet emploi du temps ?");
   };
 
   const dayNameComparator = (dayName1, dayName2) => {
@@ -49,9 +76,9 @@ export default function Timetable() {
   const columns = [
     {
       field: "Semaine",
-      flex: 1,
+      flex: 2,
       editable: false,
-      renderHeader: () => <StyledColumnHeader>Semaine</StyledColumnHeader>,
+      renderHeader: () => <StyledColumnHeader>Semaine du</StyledColumnHeader>,
     },
     {
       field: "Nom_Classe",
@@ -64,7 +91,7 @@ export default function Timetable() {
       flex: 1,
       editable: false,
       sortComparator: (v1, v2, cellParams1, cellParams2) =>
-        dayNameComparator(v1, v2), // Use the custom comparator
+        dayNameComparator(v1, v2),
       renderHeader: () => <StyledColumnHeader>Jour</StyledColumnHeader>,
     },
     {
@@ -73,7 +100,9 @@ export default function Timetable() {
       flex: 2,
       valueGetter: (params) =>
         `${params.row.Debut_Horaire || ""} - ${params.row.Fin_Horaire || ""}`,
-      renderHeader: () => <StyledColumnHeader>Heure de cours</StyledColumnHeader>,
+      renderHeader: () => (
+        <StyledColumnHeader>Heure de cours</StyledColumnHeader>
+      ),
     },
     {
       field: "Nom_Salle",
@@ -102,11 +131,19 @@ export default function Timetable() {
       renderCell: (params) => (
         <>
           <Button color="info" onClick={() => handleChange(params.row)}>
-            Modifier
+            <BoxIcons>
+              <Pencil2Icon />
+              <GapComponents gapX="5px" />
+              Modifier
+            </BoxIcons>
           </Button>
           <GapComponents gapX="10px" />
           <Button color="danger" onClick={() => HandleDelete(params.row)}>
-            Supprimer
+            <BoxIcons>
+              <Cross1Icon />
+              <GapComponents gapX="5px" />
+              Supprimer
+            </BoxIcons>
           </Button>
         </>
       ),
@@ -119,7 +156,7 @@ export default function Timetable() {
         const response = await axios.get(
           "http://192.168.43.252/backend_IHM/api/api_emploi_ko.php"
         );
-        setScheduleData(response.data); // Save the response data instead of the entire response object
+        setScheduleData(response.data);
         setRows(response.data);
         console.log(response.data);
       } catch (error) {
@@ -130,31 +167,43 @@ export default function Timetable() {
     fetchData();
   }, []);
 
-  // Render loading state if data is not yet available
   if (scheduleData === null) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Container>
-      <Title>Emploi du temps</Title>
-      <Box>
-        <StyledDataGrid
-          rows={rows}
-          getRowId={(row) => row.ID_Emploi}
-          columns={columns}
-          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 8,
-              },
-            },
-          }}
-          pageSizeOptions={[8]}
-          disableRowSelectionOnClick
+    <>
+      <Container>
+        <Title>Liste des Emploi du temps</Title>
+        <Modal
+          open={isOpen}
+          closeModal={closeModal}
+          title={title}
+          description={description}
+          data={selectedRow}
         />
-      </Box>
-    </Container>
+        <Box>
+          <StyledDataGrid
+            rows={rows}
+            getRowId={(row) => row.ID_Emploi}
+            columns={columns}
+            localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            disableRowSelectionOnClick
+          />
+          <GapComponents gapY="20px" />
+          <Button width="10vw" minWidth="78px" onClick={handleAdd}>
+            Ajouter un emploi du temps
+          </Button>
+        </Box>
+      </Container>
+    </>
   );
 }

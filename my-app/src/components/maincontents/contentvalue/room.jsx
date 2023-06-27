@@ -39,7 +39,7 @@ export default function Room() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [isOpenA, setIsOpenA] = React.useState(false);
-  // I used A and B, somehow I'm running out of variable name idea xD
+  // I used A and B, somehow I'm running out of variable's name idea xD
 
   const [isOpenB, setIsOpenB] = React.useState(false);
 
@@ -137,7 +137,7 @@ export default function Room() {
           "http://192.168.43.252/backend_IHM/api/api_salle.php",
           data
         );
-        setMessage("La salle a bien ete ajoute");
+        setMessage("La salle à bien été ajouté");
         setSeverity("success");
         ShowAlert();
         setSelectedRoom("");

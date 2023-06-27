@@ -33,6 +33,10 @@ export default function Alert({ open, setOpen, message, severity }) {
         onClose={handleClose}
         message={message}
         action={action}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
       >
         <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
           {message}

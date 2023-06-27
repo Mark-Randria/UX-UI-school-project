@@ -109,7 +109,7 @@ export default function Day() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selectedDay) {
-      setMessage("Le champ ne doit pas etre vide");
+      setMessage("Veuillez choisir un choix");
       setSeverity("error");
       ShowAlert();
     } else {

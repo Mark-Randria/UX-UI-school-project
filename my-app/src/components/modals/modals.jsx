@@ -1,6 +1,13 @@
 import React from "react";
 
-import { CustomModal, Box, Title, Description } from "./modals.style";
+import {
+  CustomModal,
+  Box,
+  EndBox,
+  Title,
+  Description,
+  BoxIcons,
+} from "./modals.style";
 
 import Button from "../buttons/button";
 
@@ -22,8 +29,11 @@ export default function Modal({
       aria-describedby="modal-modal-description"
     >
       <Box>
-        <Button color="danger" onClick={closeModal}><Cross1Icon /></Button>
-        {/* {console.log(data)} */}
+        <EndBox>
+          <BoxIcons onClick={closeModal}>
+            <Cross1Icon />
+          </BoxIcons>
+        </EndBox>
         <Title id="modal-modal-title">{title}</Title>
         <Description id="modal-modal-description">{description}</Description>
         {inputComponents}

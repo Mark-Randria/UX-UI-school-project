@@ -7,12 +7,13 @@ import {
   Box,
   Box2,
   BoxIcons,
+  EndBox,
   GapComponents,
   StyledColumnHeader,
   StyledDataGrid,
 } from "../maincontent.style";
 
-import { Pencil2Icon, Cross1Icon } from "@radix-ui/react-icons";
+import { Pencil2Icon, Cross1Icon, CheckIcon } from "@radix-ui/react-icons";
 
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -54,8 +55,6 @@ export default function Timetable() {
   const [teachers, setTeachers] = React.useState([]);
   const [teacher, setTeacher] = React.useState("");
   const [selectedTeacher, setSelectedTeacher] = React.useState("");
-
-  let a = null;
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +100,11 @@ export default function Timetable() {
 
   const closeModal = () => {
     setIsOpen(false);
+    setSelectedClass("");
+    setSelectedDay("");
+    setSelectedRoom("");
     setSelectedHour("");
+    setTeacher("");
   };
 
   const handleChangeHours = (event) => {
@@ -134,11 +137,11 @@ export default function Timetable() {
     setSelectedWeek(event.target.value);
   };
 
-  function handleChangeTeachers (event) {
+  function handleChangeTeachers(event) {
     let a = event.target.value;
     console.log(a);
     setTeacher(a);
-  };
+  }
 
   const handleAdd = () => {
     setSelectedRow([]);
@@ -168,6 +171,7 @@ export default function Timetable() {
         <Select
           labelId="Class-label"
           value={selectedClass}
+          defaultValue=""
           onChange={handleChangeClasses}
         >
           {classes &&
@@ -184,6 +188,7 @@ export default function Timetable() {
         <TextField
           id="Week-label"
           value={selectedRow.Semaine}
+          defaultValue=""
           onChange={handleChangeWeeks}
         />
       </Box2>
@@ -193,6 +198,7 @@ export default function Timetable() {
         <Select
           labelId="Day-label"
           value={selectedDay}
+          defaultValue=""
           onChange={handleChangeDays}
         >
           {days &&
@@ -209,6 +215,7 @@ export default function Timetable() {
         <Select
           labelId="Room-label"
           value={selectedRoom}
+          defaultValue=""
           onChange={handleChangeRooms}
         >
           {rooms &&
@@ -225,6 +232,7 @@ export default function Timetable() {
         <Select
           labelId="Hour-label"
           value={selectedHour}
+          defaultValue=""
           onChange={handleChangeHours}
         >
           {hours &&
@@ -238,8 +246,6 @@ export default function Timetable() {
       <GapComponents gapY="10px" />
       <Box2>
         <InputLabel id="Teacher-label">Matière (avec Prof)</InputLabel>
-
-        {console.log(selectedTeacher)}
         <Select
           labelId="Teacher-label"
           value={teacher}
@@ -254,6 +260,23 @@ export default function Timetable() {
         </Select>
       </Box2>
       <GapComponents gapY="10px" />
+      <EndBox>
+        <Button color="info" width="100px">
+          <BoxIcons>
+            Confirmer
+            <GapComponents gapX="5px" />
+            <CheckIcon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+        <Button color="warning" width="100px">
+          <BoxIcons>
+            Retour
+            <GapComponents gapX="5px" />
+            <Cross1Icon />
+          </BoxIcons>
+        </Button>
+      </EndBox>
     </>
   );
 

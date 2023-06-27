@@ -34,6 +34,11 @@ export const Box2 = styled(Box)`
   margin: 5px 0px;
 `
 
+export const EndBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
 export const BoxIcons = styled(Box)`
   flex-direction: row;
   padding: 0;

@@ -342,13 +342,14 @@ export default function Timetable() {
           </BoxIcons>
         </Button>
         <GapComponents gapX="10px" />
-        <Button color="warning" width="100px">
+        <Button color="warning" >
           <BoxIcons>
             Retour
             <GapComponents gapX="5px" />
             <Cross1Icon />
           </BoxIcons>
         </Button>
+        <GapComponents gapX="10px" />
       </EndBox>
     </>
   );

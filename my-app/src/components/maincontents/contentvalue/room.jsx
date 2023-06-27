@@ -18,8 +18,6 @@ import { frFR } from "@mui/x-data-grid";
 
 import { Pencil2Icon, Cross1Icon, CheckIcon } from "@radix-ui/react-icons";
 
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 

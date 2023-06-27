@@ -105,6 +105,7 @@ export default function Timetable() {
     setSelectedDay("");
     setSelectedRoom("");
     setSelectedHour("");
+    setSelectedTeacher("");
     setTeacher("");
   };
 
@@ -150,11 +151,39 @@ export default function Timetable() {
     setDescription("Veuiller ajouter une nouvelle emploi du temps");
   };
 
-  const handleChange = (row) => {
+  const handleChange = async (row) => {
     setSelectedRow(row);
     openModal();
     setTitle("Modification de l'emploi du temps");
     setDescription("Veuiller modifier les valeurs");
+    let classId = "";
+    if (row.Nom_Classe) {
+      const selectedClassData = classes.find(
+        (data) => data.Nom_Classe === row.Nom_Classe
+      );
+      classId = selectedClassData ? selectedClassData.ID_Classe : "";
+    } else {
+      classId = selectedClass;
+    }
+    setSelectedClass(classId);
+    try {
+      const response = await axios.get(
+        `http://192.168.43.252/backend_IHM/api/api.php?matiereProf&idClasse=${classId}`
+      );
+      setSelectedTeacher(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setSelectedDay(
+      row.Nom_Jour
+        ? days.find((data) => data.Nom_Jour === row.Nom_Jour)?.ID_Jour || ""
+        : selectedDay
+    );
+    setSelectedRoom(
+      row.Nom_Salle
+        ? rooms.find((data) => data.Nom_Salle === row.Nom_Salle)?.ID_Salle || ""
+        : selectedRoom
+    );
   };
 
   const HandleDelete = (row) => {
@@ -171,8 +200,10 @@ export default function Timetable() {
         <Select
           labelId="Class-label"
           value={selectedClass}
-          defaultValue=""
           onChange={handleChangeClasses}
+          disabled={
+            selectedRow.Nom_Classe && selectedRow.Nom_Classe !== selectedClass
+          }
         >
           {classes &&
             classes.map((data) => (
@@ -187,8 +218,9 @@ export default function Timetable() {
         <InputLabel id="Week-label">Semaine</InputLabel>
         <TextField
           id="Week-label"
-          value={selectedRow.Semaine}
+          value={selectedRow.Semaine || selectedWeek}
           onChange={handleChangeWeeks}
+          autoComplete="off"
         />
       </Box2>
       <GapComponents gapY="10px" />

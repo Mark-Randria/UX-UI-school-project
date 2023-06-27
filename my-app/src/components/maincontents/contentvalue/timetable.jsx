@@ -5,32 +5,354 @@ import {
   Title,
   Container,
   Box,
+  Box2,
+  BoxIcons,
+  EndBox,
   GapComponents,
   StyledColumnHeader,
   StyledDataGrid,
 } from "../maincontent.style";
 
+import { Pencil2Icon, Cross1Icon, CheckIcon } from "@radix-ui/react-icons";
+
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import TextField from "@mui/material/TextField";
+
 import Button from "../../buttons/button";
+import Input from "../../inputs/input";
+import Modal from "../../modals/modals";
+import Alert from "../../alerts/alert";
 
 import { frFR } from "@mui/x-data-grid";
 
 export default function Timetable() {
-  const [scheduleData, setScheduleData] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [scheduleData, setScheduleData] = React.useState([]);
 
   const [rows, setRows] = React.useState([]);
   const [selectedRow, setSelectedRow] = React.useState([]);
 
-  const handleChange = (row) => {
-    console.log("Changed clicked for row:", row);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const [message, setMessage] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [severity, setSeverity] = React.useState("");
+
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  const [hours, setHours] = React.useState([]);
+  const [selectedHour, setSelectedHour] = React.useState("");
+
+  const [rooms, setRooms] = React.useState([]);
+  const [selectedRoom, setSelectedRoom] = React.useState("");
+
+  const [days, setDays] = React.useState([]);
+  const [selectedDay, setSelectedDay] = React.useState("");
+
+  const [classes, setClasses] = React.useState([]);
+  const [selectedClass, setSelectedClass] = React.useState("");
+
+  const [weeks, setWeeks] = React.useState([]);
+  const [selectedWeek, setSelectedWeek] = React.useState("");
+
+  const [teachers, setTeachers] = React.useState([]);
+  const [teacher, setTeacher] = React.useState("");
+  const [selectedTeacher, setSelectedTeacher] = React.useState("");
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_emploi_ko.php"
+        );
+
+        const responseHours = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_heure.php"
+        );
+        const responseRooms = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_salle.php"
+        );
+        const responseDays = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_jour.php"
+        );
+        const responseClasses = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_classe.php"
+        );
+        const responseTeachers = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_prof.php"
+        );
+        setScheduleData(response.data);
+        setRows(response.data);
+        setHours(responseHours.data);
+        setRooms(responseRooms.data);
+        setDays(responseDays.data);
+        setClasses(responseClasses.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setSelectedRow([]);
+    setSelectedClass("");
+    setSelectedDay("");
+    setSelectedRoom("");
+    setSelectedHour("");
+    setSelectedTeacher("");
+    setTeacher("");
+  };
+
+  const handleChangeHours = (event) => {
+    setSelectedHour(event.target.value);
+  };
+
+  const handleChangeRooms = (event) => {
+    setSelectedRoom(event.target.value);
+  };
+
+  const handleChangeDays = (event) => {
+    setSelectedDay(event.target.value);
+  };
+
+  const handleChangeClasses = async (event) => {
+    const selectedClass = event.target.value;
+    setSelectedClass(selectedClass);
+    setTeacher("");
+    try {
+      const response = await axios.get(
+        `http://192.168.43.252/backend_IHM/api/api.php?matiereProf&idClasse=${selectedClass}`
+      );
+      setSelectedTeacher(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeWeeks = (event) => {
+    setSelectedWeek(event.target.value);
+  };
+
+  function handleChangeTeachers(event) {
+    const a = event.target.value;
+    setTeacher(a);
+  }
+
+  const ShowAlert = () => {
     setOpen(true);
+  };
+
+  const CloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleAdd = () => {
+    setSelectedRow([]);
+    openModal();
+    setTitle("Ajout emploi du temps");
+    setDescription("Veuiller ajouter une nouvelle emploi du temps");
+  };
+
+  const handleChange = async (row) => {
     setSelectedRow(row);
+    openModal();
+    setTitle("Modification de l'emploi du temps");
+    setDescription("Veuiller modifier les valeurs");
+    let classId = "";
+    if (row.Nom_Classe) {
+      const selectedClassData = classes.find(
+        (data) => data.Nom_Classe === row.Nom_Classe
+      );
+      classId = selectedClassData ? selectedClassData.ID_Classe : "";
+    } else {
+      classId = selectedClass;
+    }
+    setSelectedClass(classId);
+    try {
+      const response = await axios.get(
+        `http://192.168.43.252/backend_IHM/api/api.php?matiereProf&idClasse=${classId}`
+      );
+      setSelectedTeacher(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setSelectedDay(
+      row.Nom_Jour
+        ? days.find((data) => data.Nom_Jour === row.Nom_Jour)?.ID_Jour || ""
+        : selectedDay
+    );
+    setSelectedRoom(
+      row.Nom_Salle
+        ? rooms.find((data) => data.Nom_Salle === row.Nom_Salle)?.ID_Salle || ""
+        : selectedRoom
+    );
   };
 
   const HandleDelete = (row) => {
-    console.log("Delete clicked for row:", row);
     setSelectedRow(row);
+    openModal();
+    setTitle("Suppression de l'emploi du temps");
+    setDescription("Voulez-vous supprimer cet emploi du temps ?");
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (
+      !(selectedRow.Semaine || selectedWeek) ||
+      !selectedDay ||
+      !selectedHour ||
+      !selectedClass ||
+      !selectedRoom ||
+      !teacher
+    ) {
+      setMessage("Veuillez remplir le formulaire");
+      setSeverity("error");
+      ShowAlert();
+    } else {
+      const requestData = {
+        semEntrer: selectedRow.Semaine || selectedWeek,
+        idJour: selectedDay,
+        idHoraire: selectedHour,
+        idClasse: selectedClass,
+        idSalle: selectedRoom,
+        idMatiere: teacher,
+      };
+      console.log(JSON.stringify(requestData));
+    }
+  };
+
+  const handleAddJSX = (
+    <>
+      <Box2>
+        <InputLabel id="Class-label">Classe</InputLabel>
+        <Select
+          labelId="Class-label"
+          value={selectedClass}
+          onChange={handleChangeClasses}
+          disabled={
+            selectedRow.Nom_Classe && selectedRow.Nom_Classe !== selectedClass
+          }
+        >
+          {classes &&
+            classes.map((data) => (
+              <MenuItem key={data.ID_Classe} value={data.ID_Classe}>
+                {data.Nom_Classe}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Week-label">Semaine</InputLabel>
+        <TextField
+          id="Week-label"
+          value={selectedRow.Semaine || selectedWeek}
+          onChange={handleChangeWeeks}
+          autoComplete="off"
+        />
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Day-label">Jour</InputLabel>
+        <Select
+          labelId="Day-label"
+          value={selectedDay}
+          defaultValue=""
+          onChange={handleChangeDays}
+        >
+          {days &&
+            days.map((data) => (
+              <MenuItem key={data.ID_Jour} value={data.ID_Jour}>
+                {data.Nom_Jour}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Room-label">Salle</InputLabel>
+        <Select
+          labelId="Room-label"
+          value={selectedRoom}
+          defaultValue=""
+          onChange={handleChangeRooms}
+        >
+          {rooms &&
+            rooms.map((data) => (
+              <MenuItem key={data.ID_Salle} value={data.ID_Salle}>
+                {data.Nom_Salle}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Hour-label">Plage Horaire</InputLabel>
+        <Select
+          labelId="Hour-label"
+          value={selectedHour}
+          defaultValue=""
+          onChange={handleChangeHours}
+        >
+          {hours &&
+            hours.map((data, index) => (
+              <MenuItem key={index} value={data.ID_Horaire}>
+                {`${data.Debut_Horaire || ""} - ${data.Fin_Horaire || ""}  `}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Teacher-label">Matière (avec Prof)</InputLabel>
+        <Select
+          labelId="Teacher-label"
+          value={teacher}
+          defaultValue=""
+          onChange={handleChangeTeachers}
+          disabled={selectedClass === "" || selectedTeacher.length === 0}
+        >
+          {console.log(selectedTeacher)}
+          {Object.entries(selectedTeacher).map(([id, value]) => (
+            <MenuItem key={id} value={value}>
+              {value}
+            </MenuItem>
+          ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <EndBox>
+        <Button color="info" width="100px" onClick={handleSubmit}>
+          <BoxIcons>
+            Confirmer
+            <GapComponents gapX="5px" />
+            <CheckIcon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+        <Button color="warning" >
+          <BoxIcons>
+            Retour
+            <GapComponents gapX="5px" />
+            <Cross1Icon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+      </EndBox>
+    </>
+  );
 
   const dayNameComparator = (dayName1, dayName2) => {
     const dayOrder = {
@@ -49,9 +371,9 @@ export default function Timetable() {
   const columns = [
     {
       field: "Semaine",
-      flex: 1,
+      flex: 2,
       editable: false,
-      renderHeader: () => <StyledColumnHeader>Semaine</StyledColumnHeader>,
+      renderHeader: () => <StyledColumnHeader>Semaine du</StyledColumnHeader>,
     },
     {
       field: "Nom_Classe",
@@ -64,7 +386,7 @@ export default function Timetable() {
       flex: 1,
       editable: false,
       sortComparator: (v1, v2, cellParams1, cellParams2) =>
-        dayNameComparator(v1, v2), // Use the custom comparator
+        dayNameComparator(v1, v2),
       renderHeader: () => <StyledColumnHeader>Jour</StyledColumnHeader>,
     },
     {
@@ -73,7 +395,9 @@ export default function Timetable() {
       flex: 2,
       valueGetter: (params) =>
         `${params.row.Debut_Horaire || ""} - ${params.row.Fin_Horaire || ""}`,
-      renderHeader: () => <StyledColumnHeader>Heure de cours</StyledColumnHeader>,
+      renderHeader: () => (
+        <StyledColumnHeader>Heure de cours</StyledColumnHeader>
+      ),
     },
     {
       field: "Nom_Salle",
@@ -102,59 +426,69 @@ export default function Timetable() {
       renderCell: (params) => (
         <>
           <Button color="info" onClick={() => handleChange(params.row)}>
-            Modifier
+            <BoxIcons>
+              <Pencil2Icon />
+              <GapComponents gapX="5px" />
+              Modifier
+            </BoxIcons>
           </Button>
           <GapComponents gapX="10px" />
           <Button color="danger" onClick={() => HandleDelete(params.row)}>
-            Supprimer
+            <BoxIcons>
+              <Cross1Icon />
+              <GapComponents gapX="5px" />
+              Supprimer
+            </BoxIcons>
           </Button>
         </>
       ),
     },
   ];
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://192.168.43.252/backend_IHM/api/api_emploi_ko.php"
-        );
-        setScheduleData(response.data); // Save the response data instead of the entire response object
-        setRows(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Render loading state if data is not yet available
-  if (scheduleData === null) {
+  if (scheduleData === null && hours === null) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Container>
-      <Title>Emploi du temps</Title>
-      <Box>
-        <StyledDataGrid
-          rows={rows}
-          getRowId={(row) => row.ID_Emploi}
-          columns={columns}
-          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 8,
-              },
-            },
-          }}
-          pageSizeOptions={[8]}
-          disableRowSelectionOnClick
+    <>
+      <Container>
+        <Title>Liste des Emploi du temps</Title>
+        <Modal
+          open={isOpen}
+          closeModal={closeModal}
+          title={title}
+          description={description}
+          data={selectedRow}
+          inputComponents={handleAddJSX}
         />
-      </Box>
-    </Container>
+        <Box>
+          <StyledDataGrid
+            rows={rows}
+            getRowId={(row) => row.ID_Emploi}
+            columns={columns}
+            localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            disableRowSelectionOnClick
+          />
+          <GapComponents gapY="20px" />
+          <Button width="10vw" minWidth="78px" onClick={handleAdd}>
+            Ajouter un emploi du temps
+          </Button>
+        </Box>
+        <Alert
+          open={open}
+          setOpen={setOpen}
+          message={message}
+          severity={severity}
+        />
+      </Container>
+    </>
   );
 }

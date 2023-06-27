@@ -16,6 +16,7 @@ import {
   LogoContainer,
   HeaderComponents,
   Box,
+  BoxIcons,
   GapComponents,
 } from "./header.style";
 
@@ -39,7 +40,7 @@ export default function Header() {
     AuthService.logout();
     sessionStorage.removeItem("isDarkMode");
     window.location.reload();
-  }
+  };
 
   React.useEffect(() => {
     const currentTheme = JSON.parse(
@@ -57,11 +58,13 @@ export default function Header() {
       </LogoContainer>
       <HeaderComponents>
         <Box>
-          {isDarkMode ? (
-            <MoonIcon width={16} height={16} onClick={handleThemeToggle} />
-          ) : (
-            <SunIcon width={16} height={16} onClick={handleThemeToggle} />
-          )}
+          <BoxIcons>
+            {isDarkMode ? (
+              <MoonIcon width={16} height={16} onClick={handleThemeToggle} />
+            ) : (
+              <SunIcon width={16} height={16} onClick={handleThemeToggle} />
+            )}
+          </BoxIcons>
           <GapComponents gapX="5px" />
           <DividerVerticalIcon width={24} height={24} />
           <GapComponents gapX="5px" />
@@ -76,7 +79,9 @@ export default function Header() {
         </Box>
         <Box>
           <GapComponents gapX="5px" />
-          <ExitIcon width={16} height={16} onClick={logOut}/>
+          <BoxIcons>
+            <ExitIcon width={16} height={16} onClick={logOut} />
+          </BoxIcons>
           <GapComponents gapX="20px" />
         </Box>
       </HeaderComponents>

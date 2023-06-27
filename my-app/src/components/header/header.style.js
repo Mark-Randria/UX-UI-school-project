@@ -4,7 +4,7 @@ import { size } from "../../core/theme/breakpoints";
 
 export const HeaderContainer = styled.div`
   top: 0;
-  z-index:10;
+  z-index: 10;
   position: sticky;
   display: flex;
   justify-content: space-between;
@@ -13,7 +13,6 @@ export const HeaderContainer = styled.div`
   border-color: ${(props) => props.theme.colors.gray6};
   border-width: 1px;
   border-style: none none solid none;
-
 `;
 
 export const LogoContainer = styled.div`
@@ -39,11 +38,19 @@ export const Box = styled.div`
   justify-content: space-between;
   align-items: center;
   color: ${(props) => props.theme.colors.gray12};
-    p {
-        font-weight: 400;
-        font-size: 0.875rem;
-        color: ${(props) => props.theme.colors.slate12};
-    }
+  p {
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: ${(props) => props.theme.colors.slate12};
+  }
+`;
+
+export const BoxIcons = styled(Box)`
+  padding: 6px;
+  border-radius: 5px;
+  :hover {
+    background-color: ${(props) => props.theme.colors.gray6};
+  }
 `;
 
 // GapComponents is used to make a space between components

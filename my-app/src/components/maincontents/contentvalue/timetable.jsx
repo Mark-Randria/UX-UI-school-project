@@ -5,6 +5,7 @@ import {
   Title,
   Container,
   Box,
+  Box2,
   BoxIcons,
   GapComponents,
   StyledColumnHeader,
@@ -16,6 +17,7 @@ import { Pencil2Icon, Cross1Icon } from "@radix-ui/react-icons";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+import TextField from "@mui/material/TextField";
 
 import Button from "../../buttons/button";
 import Input from "../../inputs/input";
@@ -40,6 +42,21 @@ export default function Timetable() {
   const [rooms, setRooms] = React.useState([]);
   const [selectedRoom, setSelectedRoom] = React.useState("");
 
+  const [days, setDays] = React.useState([]);
+  const [selectedDay, setSelectedDay] = React.useState("");
+
+  const [classes, setClasses] = React.useState([]);
+  const [selectedClass, setSelectedClass] = React.useState("");
+
+  const [weeks, setWeeks] = React.useState([]);
+  const [selectedWeek, setSelectedWeek] = React.useState("");
+
+  const [teachers, setTeachers] = React.useState([]);
+  const [teacher, setTeacher] = React.useState("");
+  const [selectedTeacher, setSelectedTeacher] = React.useState("");
+
+  let a = null;
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,10 +70,21 @@ export default function Timetable() {
         const responseRooms = await axios.get(
           "http://192.168.43.252/backend_IHM/api/api_salle.php"
         );
+        const responseDays = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_jour.php"
+        );
+        const responseClasses = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_classe.php"
+        );
+        const responseTeachers = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_prof.php"
+        );
         setScheduleData(response.data);
         setRows(response.data);
         setHours(responseHours.data);
         setRooms(responseRooms.data);
+        setDays(responseDays.data);
+        setClasses(responseClasses.data);
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +92,8 @@ export default function Timetable() {
 
     fetchData();
   }, []);
+
+  console.log(teachers);
 
   const openModal = () => {
     setIsOpen(true);
@@ -80,6 +110,34 @@ export default function Timetable() {
 
   const handleChangeRooms = (event) => {
     setSelectedRoom(event.target.value);
+  };
+
+  const handleChangeDays = (event) => {
+    setSelectedDay(event.target.value);
+  };
+
+  const handleChangeClasses = async (event) => {
+    const selectedClass = event.target.value;
+    setSelectedClass(selectedClass);
+    setTeacher("");
+    try {
+      const response = await axios.get(
+        `http://192.168.43.252/backend_IHM/api/api.php?matiereProf&idClasse=${selectedClass}`
+      );
+      setSelectedTeacher(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeWeeks = (event) => {
+    setSelectedWeek(event.target.value);
+  };
+
+  function handleChangeTeachers (event) {
+    let a = event.target.value;
+    console.log(a);
+    setTeacher(a);
   };
 
   const handleAdd = () => {
@@ -105,60 +163,70 @@ export default function Timetable() {
 
   const handleChangeJSX = (
     <>
-      <Input
-        label="Classe"
-        id="Classe"
-        placeholder="Ex: L2 PRO"
-        type="text"
-        value={selectedRow.Nom_Classe}
-        setValue={(value) =>
-          setSelectedRow({ ...selectedRow, Nom_Classe: value })
-        }
-      />
+      <Box2>
+        <InputLabel id="Class-label">Classe</InputLabel>
+        <Select
+          labelId="Class-label"
+          value={selectedClass}
+          onChange={handleChangeClasses}
+        >
+          {classes &&
+            classes.map((data) => (
+              <MenuItem key={data.ID_Classe} value={data.ID_Classe}>
+                {data.Nom_Classe}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
       <GapComponents gapY="10px" />
-      <Input
-        label="Semaine"
-        id="Semaine"
-        type="text"
-        value={selectedRow.Semaine}
-        setValue={(value) => setSelectedRow({ ...selectedRow, Semaine: value })}
-      />
+      <Box2>
+        <InputLabel id="Week-label">Semaine</InputLabel>
+        <TextField
+          id="Week-label"
+          value={selectedRow.Semaine}
+          onChange={handleChangeWeeks}
+        />
+      </Box2>
       <GapComponents gapY="10px" />
-      <Input
-        label="Jour"
-        id="Jour"
-        type="text"
-        value={selectedRow.Nom_Jour}
-        setValue={(value) =>
-          setSelectedRow({ ...selectedRow, Nom_Jour: value })
-        }
-      />
+      <Box2>
+        <InputLabel id="Day-label">Jour</InputLabel>
+        <Select
+          labelId="Day-label"
+          value={selectedDay}
+          onChange={handleChangeDays}
+        >
+          {days &&
+            days.map((data) => (
+              <MenuItem key={data.ID_Jour} value={data.ID_Jour}>
+                {data.Nom_Jour}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
       <GapComponents gapY="10px" />
-      <Box>
+      <Box2>
         <InputLabel id="Room-label">Salle</InputLabel>
         <Select
           labelId="Room-label"
           value={selectedRoom}
           onChange={handleChangeRooms}
         >
-          {console.log(hours)}
           {rooms &&
-            rooms.map((data, index) => (
-              <MenuItem key={index} value={data.ID_Salle}>
+            rooms.map((data) => (
+              <MenuItem key={data.ID_Salle} value={data.ID_Salle}>
                 {data.Nom_Salle}
               </MenuItem>
             ))}
         </Select>
-      </Box>
+      </Box2>
       <GapComponents gapY="10px" />
-      <Box>
+      <Box2>
         <InputLabel id="Hour-label">Plage Horaire</InputLabel>
         <Select
           labelId="Hour-label"
           value={selectedHour}
           onChange={handleChangeHours}
         >
-          {console.log(hours)}
           {hours &&
             hours.map((data, index) => (
               <MenuItem key={index} value={data.ID_Horaire}>
@@ -166,7 +234,25 @@ export default function Timetable() {
               </MenuItem>
             ))}
         </Select>
-      </Box>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Teacher-label">Matière (avec Prof)</InputLabel>
+
+        {console.log(selectedTeacher)}
+        <Select
+          labelId="Teacher-label"
+          value={teacher}
+          defaultValue=""
+          onChange={handleChangeTeachers}
+        >
+          {Object.entries(selectedTeacher).map(([id, value]) => (
+            <MenuItem key={id} value={value}>
+              {value}
+            </MenuItem>
+          ))}
+        </Select>
+      </Box2>
       <GapComponents gapY="10px" />
     </>
   );

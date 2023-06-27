@@ -29,6 +29,11 @@ export const Box = styled.div`
   border-radius: 5px;
 `;
 
+export const Box2 = styled(Box)`
+  padding: 0 12px;
+  margin: 5px 0px;
+`
+
 export const BoxIcons = styled(Box)`
   flex-direction: row;
   padding: 0;

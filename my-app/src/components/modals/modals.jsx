@@ -4,6 +4,8 @@ import { CustomModal, Box, Title, Description } from "./modals.style";
 
 import Button from "../buttons/button";
 
+import { Pencil2Icon, Cross1Icon } from "@radix-ui/react-icons";
+
 export default function Modal({
   open,
   closeModal,
@@ -20,11 +22,11 @@ export default function Modal({
       aria-describedby="modal-modal-description"
     >
       <Box>
-        {console.log(data)}
+        <Button color="danger" onClick={closeModal}><Cross1Icon /></Button>
+        {/* {console.log(data)} */}
         <Title id="modal-modal-title">{title}</Title>
         <Description id="modal-modal-description">{description}</Description>
         {inputComponents}
-        <Button onClick={closeModal}>Fermer</Button>
       </Box>
     </CustomModal>
   );

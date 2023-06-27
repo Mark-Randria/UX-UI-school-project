@@ -100,6 +100,7 @@ export default function Timetable() {
 
   const closeModal = () => {
     setIsOpen(false);
+    setSelectedRow([]);
     setSelectedClass("");
     setSelectedDay("");
     setSelectedRoom("");
@@ -138,8 +139,7 @@ export default function Timetable() {
   };
 
   function handleChangeTeachers(event) {
-    let a = event.target.value;
-    console.log(a);
+    const a = event.target.value;
     setTeacher(a);
   }
 
@@ -164,7 +164,7 @@ export default function Timetable() {
     setDescription("Voulez-vous supprimer cet emploi du temps ?");
   };
 
-  const handleChangeJSX = (
+  const handleAddJSX = (
     <>
       <Box2>
         <InputLabel id="Class-label">Classe</InputLabel>
@@ -188,7 +188,6 @@ export default function Timetable() {
         <TextField
           id="Week-label"
           value={selectedRow.Semaine}
-          defaultValue=""
           onChange={handleChangeWeeks}
         />
       </Box2>
@@ -251,7 +250,9 @@ export default function Timetable() {
           value={teacher}
           defaultValue=""
           onChange={handleChangeTeachers}
+          disabled={selectedClass === "" || selectedTeacher.length === 0}
         >
+          {console.log(selectedTeacher)}
           {Object.entries(selectedTeacher).map(([id, value]) => (
             <MenuItem key={id} value={value}>
               {value}
@@ -385,7 +386,7 @@ export default function Timetable() {
           title={title}
           description={description}
           data={selectedRow}
-          inputComponents={handleChangeJSX}
+          inputComponents={handleAddJSX}
         />
         <Box>
           <StyledDataGrid

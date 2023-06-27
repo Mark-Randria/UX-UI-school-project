@@ -3,9 +3,10 @@ import React from "react";
 import Timetable from "./contentvalue/timetable";
 import Teacher from "./contentvalue/teacher";
 import Subject from "./contentvalue/subject";
-import School from "./contentvalue/school";
+import Day from "./contentvalue/day";
 import Class from "./contentvalue/class";
 import Room from "./contentvalue/room";
+import Hour from "./contentvalue/hour";
 
 export default function Maincontent({ activePage }) {
   let content;
@@ -17,8 +18,11 @@ export default function Maincontent({ activePage }) {
     case "salle":
       content = <Room />;
       break;
-    case "ecole":
-      content = <School />;
+    case "heure":
+      content = <Hour />;
+      break;
+    case "jour":
+      content = <Day />;
       break;
     case "matiere":
       content = <Subject />;

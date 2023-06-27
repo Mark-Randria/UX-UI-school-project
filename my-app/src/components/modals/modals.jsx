@@ -11,7 +11,7 @@ import {
 
 import Button from "../buttons/button";
 
-import { Pencil2Icon, Cross1Icon } from "@radix-ui/react-icons";
+import { Cross1Icon } from "@radix-ui/react-icons";
 
 export default function Modal({
   open,

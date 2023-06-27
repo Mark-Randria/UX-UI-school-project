@@ -16,6 +16,8 @@ import {
   Pencil2Icon,
   PersonIcon,
   GearIcon,
+  TimerIcon,
+  CalendarIcon,
 } from "@radix-ui/react-icons";
 
 export default function Sidemenu({ setActivePage }) {
@@ -55,6 +57,24 @@ export default function Sidemenu({ setActivePage }) {
             <HomeIcon />
             <GapComponents gapX="10px" />
             Salle
+          </Box>
+          <GapComponents gapY="5px" />
+          <Box
+            active={activeLink === "heure"}
+            onClick={() => handleLinkClick("heure")}
+          >
+            <TimerIcon />
+            <GapComponents gapX="10px" />
+            Horaire
+          </Box>
+          <GapComponents gapY="5px" />
+          <Box
+            active={activeLink === "jour"}
+            onClick={() => handleLinkClick("jour")}
+          >
+            <CalendarIcon />
+            <GapComponents gapX="10px" />
+            Jour de cours
           </Box>
           <GapComponents gapY="5px" />
           <Box

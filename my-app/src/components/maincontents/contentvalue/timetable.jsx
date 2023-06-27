@@ -23,6 +23,7 @@ import TextField from "@mui/material/TextField";
 import Button from "../../buttons/button";
 import Input from "../../inputs/input";
 import Modal from "../../modals/modals";
+import Alert from "../../alerts/alert";
 
 import { frFR } from "@mui/x-data-grid";
 
@@ -33,6 +34,10 @@ export default function Timetable() {
   const [selectedRow, setSelectedRow] = React.useState([]);
 
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const [message, setMessage] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [severity, setSeverity] = React.useState("");
 
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -92,8 +97,6 @@ export default function Timetable() {
     fetchData();
   }, []);
 
-  console.log(teachers);
-
   const openModal = () => {
     setIsOpen(true);
   };
@@ -144,6 +147,17 @@ export default function Timetable() {
     setTeacher(a);
   }
 
+  const ShowAlert = () => {
+    setOpen(true);
+  };
+
+  const CloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   const handleAdd = () => {
     setSelectedRow([]);
     openModal();
@@ -191,6 +205,32 @@ export default function Timetable() {
     openModal();
     setTitle("Suppression de l'emploi du temps");
     setDescription("Voulez-vous supprimer cet emploi du temps ?");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (
+      !(selectedRow.Semaine || selectedWeek) ||
+      !selectedDay ||
+      !selectedHour ||
+      !selectedClass ||
+      !selectedRoom ||
+      !teacher
+    ) {
+      setMessage("Veuillez remplir le formulaire");
+      setSeverity("error");
+      ShowAlert();
+    } else {
+      const requestData = {
+        semEntrer: selectedRow.Semaine || selectedWeek,
+        idJour: selectedDay,
+        idHoraire: selectedHour,
+        idClasse: selectedClass,
+        idSalle: selectedRoom,
+        idMatiere: teacher,
+      };
+      console.log(JSON.stringify(requestData));
+    }
   };
 
   const handleAddJSX = (
@@ -294,7 +334,7 @@ export default function Timetable() {
       </Box2>
       <GapComponents gapY="10px" />
       <EndBox>
-        <Button color="info" width="100px">
+        <Button color="info" width="100px" onClick={handleSubmit}>
           <BoxIcons>
             Confirmer
             <GapComponents gapX="5px" />
@@ -441,6 +481,12 @@ export default function Timetable() {
             Ajouter un emploi du temps
           </Button>
         </Box>
+        <Alert
+          open={open}
+          setOpen={setOpen}
+          message={message}
+          severity={severity}
+        />
       </Container>
     </>
   );

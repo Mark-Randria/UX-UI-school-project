@@ -33,11 +33,17 @@ export default function Room() {
   const [roomData, setRoomData] = React.useState(null);
   const [selectedRoom, setSelectedRoom] = React.useState("");
 
+  const [room, setRoom] = React.useState("");
+  const [idRoom, setIdRoom] = React.useState("");
+
   const [rows, setRows] = React.useState([]);
 
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [isOpenA, setIsOpenA] = React.useState(false);
+  // I used A and B, somehow I'm running out of variable name idea xD
+
+  const [isOpenB, setIsOpenB] = React.useState(false);
 
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -70,9 +76,14 @@ export default function Room() {
     setIsOpenA(true);
   };
 
+  const openModalB = () => {
+    setIsOpenB(true);
+  };
+
   const closeModal = () => {
     setIsOpen(false);
     setIsOpenA(false);
+    setIsOpenB(false);
   };
 
   const ShowAlert = () => {
@@ -94,12 +105,15 @@ export default function Room() {
   };
 
   const handleChange = (row) => {
-    console.log("CHange", row);
+    openModalA();
+    setRoom(row.Nom_Salle);
+    setIdRoom(row.ID_Salle);
+    setTitle("Modification de la salle");
+    setDescription("Veuiller modifier les valeurs");
   };
 
   const handleDelete = (row) => {
-    openModalA();
-    // console.log(row);
+    openModalB();
     setSelectedRoom(row);
     setTitle("Suppression de l'emploi du temps");
     setDescription("Voulez-vous supprimer cet emploi du temps ?");
@@ -141,17 +155,50 @@ export default function Room() {
     }
   };
 
+  const handleSubmitModify = async (event) => {
+    event.preventDefault();
+    console.log(idRoom, room);
+    if (!room) {
+      setMessage("Le champ ne doit pas etre vide");
+      setSeverity("error");
+      ShowAlert();
+    } else {
+      const requestData1 = {
+        idsalle: idRoom,
+        nomsalle: room,
+      };
+      const data = JSON.stringify(requestData1);
+      try {
+        const response = await axios.put(
+          `http://192.168.43.252/backend_IHM/api/api_salle.php?id=${idRoom}`,
+          data
+        );
+        setMessage("La salle à bien été modifié ");
+        setSeverity("success");
+        ShowAlert();
+        setSelectedRoom("");
+      } catch (error) {
+        const errorMessage = error.response.data.message;
+        const errorStringMessage = "La salle existe déjà.";
+        if (errorMessage === errorStringMessage) {
+          setMessage("La salle est déjà existante.");
+          setSeverity("warning");
+          ShowAlert();
+        }
+      }
+    }
+  };
+
   const handleSubmitDelete = async (event) => {
     event.preventDefault();
     console.log(selectedRoom);
     let id = selectedRoom.ID_Salle;
     axios
-      .delete(
-        `http://192.168.43.252/backend_IHM/api/api_salle.php?id=${id}`
-      )
+      .delete(`http://192.168.43.252/backend_IHM/api/api_salle.php?id=${id}`)
       .then((response) => {
-        console.log("Deletion successful");
-        alert("deletionsuccessfull");
+        setMessage("La salle à été bien supprimé.");
+        setSeverity("info");
+        ShowAlert();
       })
       .catch((error) => {
         console.log("Deletion failed", error);
@@ -160,6 +207,10 @@ export default function Room() {
 
   const handleChangeRooms = (event) => {
     setSelectedRoom(event.target.value);
+  };
+
+  const handleModifyRooms = (event) => {
+    setRoom(event.target.value);
   };
 
   const handleAddJSX = (
@@ -195,14 +246,43 @@ export default function Room() {
     </>
   );
 
+  const handleModifyJSX = (
+    <>
+      <Box2>
+        <InputLabel id="Room-label">Salle</InputLabel>
+        <TextField
+          id="Room-label"
+          value={room}
+          onChange={handleModifyRooms}
+          autoComplete="off"
+        />
+      </Box2>
+      <GapComponents gapY="10px" />
+      <EndBox>
+        <Button color="info" onClick={handleSubmitModify}>
+          <BoxIcons>
+            Confirmer
+            <GapComponents gapX="5px" />
+            <CheckIcon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+        <Button color="notimportant" onClick={handleReset}>
+          <BoxIcons>
+            Effacer
+            <GapComponents gapX="5px" />
+            <Cross1Icon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+      </EndBox>
+    </>
+  );
+
   const handleDeleteJSX = (
     <>
       <EndBox>
-        <Button
-          color="danger"
-          width="88px"
-          onClick={handleSubmitDelete}
-        >
+        <Button color="danger" width="88px" onClick={handleSubmitDelete}>
           <BoxIcons>
             <GapComponents gapX="5px" />
             Confirmer
@@ -264,6 +344,14 @@ export default function Room() {
       />
       <Modal
         open={isOpenA}
+        closeModal={closeModal}
+        title={title}
+        description={description}
+        data={roomData}
+        inputComponents={handleModifyJSX}
+      />
+      <Modal
+        open={isOpenB}
         closeModal={closeModal}
         title={title}
         description={description}

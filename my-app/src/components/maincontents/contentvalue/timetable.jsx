@@ -269,7 +269,6 @@ export default function Timetable() {
         <Select
           labelId="Day-label"
           value={selectedDay}
-          defaultValue=""
           onChange={handleChangeDays}
         >
           {days &&
@@ -286,7 +285,6 @@ export default function Timetable() {
         <Select
           labelId="Room-label"
           value={selectedRoom}
-          defaultValue=""
           onChange={handleChangeRooms}
         >
           {rooms &&
@@ -342,7 +340,7 @@ export default function Timetable() {
           </BoxIcons>
         </Button>
         <GapComponents gapX="10px" />
-        <Button color="warning" >
+        <Button color="notimportant" >
           <BoxIcons>
             Retour
             <GapComponents gapX="5px" />

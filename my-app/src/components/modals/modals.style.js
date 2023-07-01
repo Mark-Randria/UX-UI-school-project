@@ -12,11 +12,9 @@ export const Box = styled.div`
   transform: translate(-50%, -50%);
   width: 50%;
   background-color: ${(props) => props.theme.colors.gray2};
+  border-radius: 10px;
   padding: 4;
   padding-bottom: 10px;
-  div {
-    color: ${(props) => props.theme.colors.slate12};
-  }
   label {
     color: ${(props) => props.theme.colors.slate11};
   }

@@ -10,6 +10,7 @@ import {
 } from "./modals.style";
 
 import Button from "../buttons/button";
+import Fade from "@mui/material/Fade";
 
 import { Cross1Icon } from "@radix-ui/react-icons";
 
@@ -28,16 +29,18 @@ export default function Modal({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box>
-        <EndBox>
-          <BoxIcons onClick={closeModal}>
-            <Cross1Icon />
-          </BoxIcons>
-        </EndBox>
-        <Title id="modal-modal-title">{title}</Title>
-        <Description id="modal-modal-description">{description}</Description>
-        {inputComponents}
-      </Box>
+      <Fade in={open}>
+        <Box>
+          <EndBox>
+            <BoxIcons onClick={closeModal}>
+              <Cross1Icon />
+            </BoxIcons>
+          </EndBox>
+          <Title id="modal-modal-title">{title}</Title>
+          <Description id="modal-modal-description">{description}</Description>
+          {inputComponents}
+        </Box>
+      </Fade>
     </CustomModal>
   );
 }

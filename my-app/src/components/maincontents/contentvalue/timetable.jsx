@@ -25,7 +25,8 @@ import Input from "../../inputs/input";
 import Modal from "../../modals/modals";
 import Alert from "../../alerts/alert";
 
-import { frFR } from "@mui/x-data-grid";
+import { GridToolbar, frFR } from "@mui/x-data-grid";
+
 
 export default function Timetable() {
   const [scheduleData, setScheduleData] = React.useState([]);
@@ -369,13 +370,13 @@ export default function Timetable() {
   const columns = [
     {
       field: "Semaine",
-      flex: 2,
+      flex: 1,
       editable: false,
       renderHeader: () => <StyledColumnHeader>Semaine du</StyledColumnHeader>,
     },
     {
       field: "Nom_Classe",
-      flex: 2,
+      flex: 1,
       editable: false,
       renderHeader: () => <StyledColumnHeader>Classe</StyledColumnHeader>,
     },
@@ -390,7 +391,7 @@ export default function Timetable() {
     {
       field: "Plage_Horaire",
       sortable: true,
-      flex: 2,
+      flex: 1.5,
       valueGetter: (params) =>
         `${params.row.Debut_Horaire || ""} - ${params.row.Fin_Horaire || ""}`,
       renderHeader: () => (
@@ -399,13 +400,13 @@ export default function Timetable() {
     },
     {
       field: "Nom_Salle",
-      flex: 2,
+      flex: 1.5,
       editable: false,
       renderHeader: () => <StyledColumnHeader>Salle</StyledColumnHeader>,
     },
     {
       field: "Nom_Matiere",
-      flex: 2,
+      flex: 1.5,
       editable: false,
       renderHeader: () => <StyledColumnHeader>Matière</StyledColumnHeader>,
     },
@@ -472,6 +473,7 @@ export default function Timetable() {
                 },
               },
             }}
+            slots={{ toolbar: GridToolbar }}
             pageSizeOptions={[5, 10]}
             disableRowSelectionOnClick
           />

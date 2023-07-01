@@ -39,13 +39,13 @@ export default function Subject() {
   const [selectedIdClass, setSelectedIdClass] = React.useState(null);
   const [selectedIdTeacher, setSelectedIdTeacher] = React.useState(null);
 
-  const [subject, setSubject] = React.useState(null);
-  const [classes, setClasses] = React.useState(null);
-  const [teacher, setTeacher] = React.useState(null);
+  const [subject, setSubject] = React.useState("");
+  const [classes, setClasses] = React.useState("");
+  const [teacher, setTeacher] = React.useState("");
 
-  const [idSubject, setIdSubject] = React.useState(null);
-  const [idClass, setIdClass] = React.useState(null);
-  const [idTeacher, setIdTeacher] = React.useState(null);
+  const [idSubject, setIdSubject] = React.useState("");
+  const [idClass, setIdClass] = React.useState("");
+  const [idTeacher, setIdTeacher] = React.useState("");
 
   const [rows, setRows] = React.useState([]);
 
@@ -124,11 +124,20 @@ export default function Subject() {
   const handleChange = (row) => {
     openModalA();
     console.log(row);
+    setTitle("Modification d'une matiere");
+    setDescription("Veuiller modifier les valeurs");
+    setSubject(row.Nom_Matiere);
+    setIdSubject(row.ID_Matiere);
+    setTeacher(row.Nom_professeur);
+    setClasses(row.Nom_classe);
   };
 
   const handleDelete = (row) => {
     openModalB();
     console.log(row);
+    setSelectedIdSubject(row.ID_Matiere);
+    setTitle("Suppression d'une matière");
+    setDescription("Voulez-vous supprimer cette matière ?");
   };
 
   const handleReset = () => {};
@@ -173,10 +182,70 @@ export default function Subject() {
     }
   };
 
+  const handleSubmitModify = async (event) => {
+    event.preventDefault();
+    if (!subject || !teacher || !classes) {
+      setMessage("Le champ ne doit pas etre vide");
+      setSeverity("error");
+      ShowAlert();
+    } else {
+      const teacherID = teacherData.find(
+        (data) => data.Nom_Professeur === teacher
+      ).ID_Professeur;
+      const classID = classData.find(
+        (data) => data.Nom_Classe === classes
+      ).ID_Classe;
+      const requestData = {
+        idprofesseur: teacherID,
+        idclasse: classID,
+        nomMatiere: subject,
+        id_mat: idSubject,
+      };
+      const data = JSON.stringify(requestData);
+      axios
+        .put(
+          `http://192.168.43.252/backend_IHM/api/api_matiere.php?id=${idSubject}`,
+          data
+        )
+        .then((response) => {
+          setMessage("Matière modifié avec succès");
+          setSeverity("success");
+          ShowAlert();
+          closeModal();
+          setSubject("");
+          setTeacher("");
+          setClasses("");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleSubmitDelete = async (event) => {
+    event.preventDefault();
+    let id = selectedIdSubject;
+    axios
+      .delete(`http://192.168.43.252/backend_IHM/api/api_matiere.php?id=${id}`)
+      .then((response) => {
+        setMessage("Suppression reussi.");
+        setSeverity("info");
+        ShowAlert();
+        closeModal();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((error) => console.log(error));
+  };
+
   const handleAddJSX = (
     <>
       <Box2>
-        <InputLabel id="Subject-label">Matiere</InputLabel>
+        <InputLabel id="Subject-label">Matière</InputLabel>
         <TextField
           id="Subject-label"
           value={selectedSubject}
@@ -242,6 +311,90 @@ export default function Subject() {
     </>
   );
 
+  const handleModifyJSX = (
+    <>
+      <Box2>
+        <InputLabel id="Subject-label">Matière</InputLabel>
+        <TextField
+          id="Subject-label"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          autoComplete="off"
+        />
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Teacher-label">Professeur</InputLabel>
+        <Select
+          labelId="Teacher-label"
+          value={teacher}
+          onChange={(e) => {
+            setTeacher(e.target.value);
+          }}
+        >
+          {teacherData &&
+            teacherData.map((data) => (
+              <MenuItem key={data.ID_Professeur} value={data.Nom_Professeur}>
+                {data.Nom_Professeur}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <Box2>
+        <InputLabel id="Class-label">Classe</InputLabel>
+        <Select
+          labelId="Class-label"
+          value={classes}
+          onChange={(e) => {
+            setClasses(e.target.value);
+          }}
+        >
+          {classData &&
+            classData.map((data) => (
+              <MenuItem key={data.ID_Classe} value={data.Nom_Classe}>
+                {data.Nom_Classe}
+              </MenuItem>
+            ))}
+        </Select>
+      </Box2>
+      <GapComponents gapY="10px" />
+      <EndBox>
+        <Button color="info" width="100px" onClick={handleSubmitModify}>
+          <BoxIcons>
+            Confirmer
+            <GapComponents gapX="5px" />
+            <CheckIcon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+        <Button color="notimportant">
+          <BoxIcons>
+            Retour
+            <GapComponents gapX="5px" />
+            <Cross1Icon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+      </EndBox>
+    </>
+  );
+
+  const handleDeleteJSX = (
+    <>
+      <EndBox>
+        <Button color="danger" width="100px" onClick={handleSubmitDelete}>
+          <BoxIcons>
+            Confirmer
+            <GapComponents gapX="5px" />
+            <CheckIcon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+      </EndBox>
+    </>
+  );
+
   const columns = [
     {
       field: "Nom_Matiere",
@@ -250,7 +403,7 @@ export default function Subject() {
       renderHeader: () => <StyledColumnHeader>Matiere</StyledColumnHeader>,
     },
     {
-      field: "Nom_Professeur",
+      field: "Nom_professeur",
       flex: 2,
       editable: false,
       renderHeader: () => (
@@ -258,7 +411,7 @@ export default function Subject() {
       ),
     },
     {
-      field: "Nom_Classe",
+      field: "Nom_classe",
       flex: 2,
       editable: false,
       renderHeader: () => <StyledColumnHeader>Classe</StyledColumnHeader>,
@@ -292,7 +445,7 @@ export default function Subject() {
 
   return (
     <Container>
-      <Title>Matiere</Title>
+      <Title>Liste des Matières</Title>
       <Modal
         open={isOpen}
         closeModal={closeModal}
@@ -301,7 +454,7 @@ export default function Subject() {
         data={subjectData}
         inputComponents={handleAddJSX}
       />
-      {/* <Modal
+      <Modal
         open={isOpenA}
         closeModal={closeModal}
         title={title}
@@ -316,11 +469,11 @@ export default function Subject() {
         description={description}
         data={subjectData}
         inputComponents={handleDeleteJSX}
-      /> */}
+      />
       <Box>
-        {/* <StyledDataGrid
+        <StyledDataGrid
           rows={rows}
-          getRowId={(row) => row.ID_Classe}
+          getRowId={(row) => row.ID_Matiere}
           columns={columns}
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
           initialState={{
@@ -332,7 +485,7 @@ export default function Subject() {
           }}
           pageSizeOptions={[5, 10]}
           disableRowSelectionOnClick
-        /> */}
+        />
         <GapComponents gapY="20px" />
         <Button width="10vw" minWidth="78px" onClick={handleAdd}>
           Ajouter une Matiere

@@ -135,12 +135,41 @@ export default function Subject() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!selectedSubject) {
+    if (!selectedSubject || !selectedTeacher || !selectedClass) {
       setMessage("Le champ ne doit pas etre vide");
       setSeverity("error");
       ShowAlert();
     } else {
-      console.log("hehehe");
+      const requestData = {
+        nomMatiere: selectedSubject,
+        idprofesseur: selectedTeacher,
+        idclasse: selectedClass,
+      };
+      const data = JSON.stringify(requestData);
+      axios
+        .post(`http://192.168.43.252/backend_IHM/api/api_matiere.php`, data)
+        .then((response) => {
+          setMessage("Matière ajoutée avec succès");
+          setSeverity("success");
+          ShowAlert();
+          closeModal();
+          setSelectedSubject("");
+          setSelectedTeacher("");
+          setSelectedClass("");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch((error) => {
+          const errorMessage = error.response.data.message;
+          const errorStringMessage =
+            "La matiere avec le même professeur et la même classe existe déjà.";
+          if (errorMessage === errorStringMessage) {
+            setMessage(errorStringMessage);
+            setSeverity("warning");
+            ShowAlert();
+          }
+        });
     }
   };
 
@@ -193,7 +222,7 @@ export default function Subject() {
       </Box2>
       <GapComponents gapY="10px" />
       <EndBox>
-        <Button color="info" width="100px" >
+        <Button color="info" width="100px" onClick={handleSubmit}>
           <BoxIcons>
             Confirmer
             <GapComponents gapX="5px" />

@@ -69,8 +69,12 @@ export default function Subject() {
         const responseTeacher = await axios.get(
           "http://192.168.43.252/backend_IHM/api/api_matiere.php?prof"
         );
+        const responseClass = await axios.get(
+          "http://192.168.43.252/backend_IHM/api/api_matiere.php?classes"
+        );
         setSubjectData(response.data);
         setTeacherData(responseTeacher.data);
+        setClassData(responseClass.data);
         setRows(response.data);
         console.log(response.data);
       } catch (error) {
@@ -111,7 +115,7 @@ export default function Subject() {
   };
 
   const handleAdd = () => {
-    // setSelectedSubject("");
+    setSelectedSubject("");
     openModal();
     setTitle("Ajout d'une matiere");
     setDescription("Veuilez ajouter un nouveau matiere");
@@ -155,7 +159,7 @@ export default function Subject() {
       <Box2>
         <InputLabel id="Teacher-label">Professeur</InputLabel>
         <Select
-          labelId="Class-label"
+          labelId="Teacher-label"
           value={selectedTeacher}
           onChange={(e) => {
             setSelectedTeacher(e.target.value);
@@ -171,11 +175,25 @@ export default function Subject() {
       </Box2>
       <GapComponents gapY="10px" />
       <Box2>
-        <InputLabel id="Day-label">Classe</InputLabel>
+        <InputLabel id="Class-label">Classe</InputLabel>
+        <Select
+          labelId="Class-label"
+          value={selectedClass}
+          onChange={(e) => {
+            setSelectedClass(e.target.value);
+          }}
+        >
+          {classData &&
+            classData.map((data) => (
+              <MenuItem key={data.ID_Classe} value={data.ID_Classe}>
+                {data.Nom_Classe}
+              </MenuItem>
+            ))}
+        </Select>
       </Box2>
       <GapComponents gapY="10px" />
       <EndBox>
-        <Button color="info" width="100px">
+        <Button color="info" width="100px" >
           <BoxIcons>
             Confirmer
             <GapComponents gapX="5px" />

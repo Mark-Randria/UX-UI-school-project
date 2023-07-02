@@ -32,12 +32,32 @@ export const Box = styled.div`
 export const Box2 = styled(Box)`
   padding: 0 12px;
   margin: 5px 0px;
-`
+
+  .MuiInputBase-root {
+    color: ${(props) => props.theme.colors.slate12};
+    background-color: ${(props) => props.theme.colors.gray4};
+    :hover {
+      background-color: ${(props) => props.theme.colors.gray5};
+    }
+    :focus-within {
+      background-color: ${(props) => props.theme.colors.gray6};
+    }
+  }
+  .MuiSelect-select {
+    color: ${(props) => props.theme.colors.slate12};
+    :hover {
+      background-color: ${(props) => props.theme.colors.gray5};
+    }
+    :focus-within {
+      background-color: ${(props) => props.theme.colors.gray6};
+    }
+  }
+`;
 
 export const EndBox = styled.div`
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 export const BoxIcons = styled(Box)`
   flex-direction: row;

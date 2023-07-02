@@ -138,6 +138,7 @@ export default function Hour() {
           setMessage("Intervalle horaire ajouté");
           setSeverity("success");
           ShowAlert();
+          closeModal();
           setTimeout(() => {
             window.location.reload();
           }, 2000);

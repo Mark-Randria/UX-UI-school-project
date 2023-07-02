@@ -27,7 +27,6 @@ import Alert from "../../alerts/alert";
 
 import { GridToolbar, frFR } from "@mui/x-data-grid";
 
-
 export default function Timetable() {
   const [scheduleData, setScheduleData] = React.useState([]);
 
@@ -68,7 +67,6 @@ export default function Timetable() {
         const response = await axios.get(
           "http://192.168.43.252/backend_IHM/api/api_emploi_ko.php"
         );
-
         const responseHours = await axios.get(
           "http://192.168.43.252/backend_IHM/api/api_heure.php"
         );
@@ -230,7 +228,23 @@ export default function Timetable() {
         idSalle: selectedRoom,
         idMatiere: teacher,
       };
-      console.log(JSON.stringify(requestData));
+      const data = JSON.stringify(requestData);
+      axios
+        .post(`http://localhost/backend_IHM/api/api_emploi_ko.php`, data)
+        .then((response) => {
+          setMessage("Nouvel emploi du temps ajouté");
+          setSeverity("success");
+          ShowAlert();
+          closeModal();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }).catch((error) => {
+            setMessage(error.response.data.message);
+            setSeverity("warning");
+            ShowAlert();
+          
+        });
     }
   };
 
@@ -319,13 +333,12 @@ export default function Timetable() {
         <Select
           labelId="Teacher-label"
           value={teacher}
-          defaultValue=""
           onChange={handleChangeTeachers}
           disabled={selectedClass === "" || selectedTeacher.length === 0}
         >
           {console.log(selectedTeacher)}
           {Object.entries(selectedTeacher).map(([id, value]) => (
-            <MenuItem key={id} value={value}>
+            <MenuItem key={id} value={id}>
               {value}
             </MenuItem>
           ))}
@@ -341,7 +354,7 @@ export default function Timetable() {
           </BoxIcons>
         </Button>
         <GapComponents gapX="10px" />
-        <Button color="notimportant" >
+        <Button color="notimportant">
           <BoxIcons>
             Retour
             <GapComponents gapX="5px" />

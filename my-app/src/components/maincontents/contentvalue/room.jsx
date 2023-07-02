@@ -141,6 +141,9 @@ export default function Room() {
         setSeverity("success");
         ShowAlert();
         setSelectedRoom("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         const errorMessage = error.response.data.message;
         const errorStringMessage = "La salle existe déjà.";
@@ -175,6 +178,9 @@ export default function Room() {
         setSeverity("success");
         ShowAlert();
         setSelectedRoom("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         const errorMessage = error.response.data.message;
         const errorStringMessage = "La salle existe déjà.";
@@ -197,6 +203,9 @@ export default function Room() {
         setMessage("La salle à été bien supprimé.");
         setSeverity("info");
         ShowAlert();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         console.log("Deletion failed", error);

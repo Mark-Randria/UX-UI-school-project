@@ -58,11 +58,11 @@ export default function Header() {
       </LogoContainer>
       <HeaderComponents>
         <Box>
-          <BoxIcons>
+          <BoxIcons onClick={handleThemeToggle}>
             {isDarkMode ? (
-              <MoonIcon width={16} height={16} onClick={handleThemeToggle} />
+              <MoonIcon width={16} height={16} />
             ) : (
-              <SunIcon width={16} height={16} onClick={handleThemeToggle} />
+              <SunIcon width={16} height={16} />
             )}
           </BoxIcons>
           <GapComponents gapX="5px" />
@@ -79,8 +79,8 @@ export default function Header() {
         </Box>
         <Box>
           <GapComponents gapX="5px" />
-          <BoxIcons>
-            <ExitIcon width={16} height={16} onClick={logOut} />
+          <BoxIcons onClick={logOut}>
+            <ExitIcon width={16} height={16} />
           </BoxIcons>
           <GapComponents gapX="20px" />
         </Box>

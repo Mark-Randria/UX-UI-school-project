@@ -383,11 +383,9 @@ export default function Subject() {
   const handleDeleteJSX = (
     <>
       <EndBox>
-        <Button color="danger" width="100px" onClick={handleSubmitDelete}>
+        <Button color="danger" onClick={handleSubmitDelete}>
           <BoxIcons>
             Confirmer
-            <GapComponents gapX="5px" />
-            <CheckIcon />
           </BoxIcons>
         </Button>
         <GapComponents gapX="10px" />

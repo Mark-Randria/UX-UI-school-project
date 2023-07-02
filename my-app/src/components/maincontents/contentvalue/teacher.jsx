@@ -140,6 +140,9 @@ export default function Teacher() {
         setSeverity("success");
         ShowAlert();
         setSelectedTeacher("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         const errorMessage = error.response.data.message;
         const errorStringMessage = "Le Prof existe déjà.";
@@ -174,6 +177,9 @@ export default function Teacher() {
         setSeverity("success");
         ShowAlert();
         setSelectedTeacher("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         const errorMessage = error.response.data.message;
         const errorStringMessage = "Le Prof existe déjà.";
@@ -196,6 +202,9 @@ export default function Teacher() {
         setMessage("Ce professeur à bien été retiré.");
         setSeverity("info");
         ShowAlert();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         console.log("Deletion failed", error);

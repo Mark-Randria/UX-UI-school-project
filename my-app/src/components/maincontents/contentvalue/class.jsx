@@ -138,6 +138,9 @@ export default function Class() {
         setSeverity("success");
         ShowAlert();
         setSelectedClass("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         const errorMessage = error.response.data.message;
         const errorStringMessage = "La classe existe déjà.";
@@ -172,6 +175,9 @@ export default function Class() {
         setSeverity("success");
         ShowAlert();
         setSelectedClass("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         const errorMessage = error.response.data.message;
         const errorStringMessage = "La classe existe déjà.";
@@ -194,6 +200,9 @@ export default function Class() {
         setMessage("Cette classe à été bien supprimé.");
         setSeverity("info");
         ShowAlert();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         console.log("Deletion failed", error);

@@ -44,15 +44,13 @@ export default function Hour() {
     dayjs.utc("2022-04-17T09:00").local()
   );
 
-  const [hour, setHour] = React.useState("");
+  const [idHour, setIdHour] = React.useState("");
 
   const [rows, setRows] = React.useState("");
 
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [isOpenA, setIsOpenA] = React.useState(false);
-
-  const [isOpenB, setIsOpenB] = React.useState(false);
 
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -85,14 +83,9 @@ export default function Hour() {
     setIsOpenA(true);
   };
 
-  const openModalB = () => {
-    setIsOpenB(true);
-  };
-
   const closeModal = () => {
     setIsOpen(false);
     setIsOpenA(false);
-    setIsOpenB(false);
   };
 
   const ShowAlert = () => {
@@ -139,12 +132,26 @@ export default function Hour() {
         finhoraire: lastVal,
       };
       const data = JSON.stringify(requestData);
-      console.log(data);
+      axios
+        .post(`http://localhost/backend_IHM/api/api_heure.php`, data)
+        .then((response) => {
+          setMessage("Intervalle horaire ajouté");
+          setSeverity("success");
+          ShowAlert();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch((error) => {
+          const errorMessage = error.response.data.error;
+          const errorStringMessage = "La plage horaire existe déjà";
+          if (errorMessage === errorStringMessage) {
+            setMessage("Intervalle horaire déjà existante.");
+            setSeverity("warning");
+            ShowAlert();
+          }
+        });
     }
-  };
-
-  const handleChange = (row) => {
-    console.log("change", row);
   };
 
   // verify that the first hours should never be greater than the last hours xp
@@ -168,7 +175,29 @@ export default function Hour() {
   };
 
   const handleDelete = (row) => {
-    console.log("delete", row);
+    openModalA();
+    setIdHour(row.ID_Horaire);
+    setTitle("Suppression de l'intervalle horaire");
+    setDescription("Voulez-vous supprimer cette intervalle horaire ?");
+  };
+
+  const handleSubmitDelete = async (event) => {
+    event.preventDefault();
+    let id = idHour;
+    axios
+      .delete(`http://localhost/backend_IHM/api/api_heure.php?id=${id}`)
+      .then((response) => {
+        setMessage("L'intervalle horaire à été bien supprimé.");
+        setSeverity("info");
+        ShowAlert();
+        closeModal();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleReset = () => {
@@ -221,6 +250,21 @@ export default function Hour() {
     </>
   );
 
+  const handleDeleteJSX = (
+    <>
+      <EndBox>
+        <Button color="danger" onClick={handleSubmitDelete}>
+          <BoxIcons>
+            Confirmer
+            <GapComponents gapX="5px" />
+            <CheckIcon />
+          </BoxIcons>
+        </Button>
+        <GapComponents gapX="10px" />
+      </EndBox>
+    </>
+  );
+
   const columns = [
     {
       field: "Debut_Horaire",
@@ -243,14 +287,6 @@ export default function Hour() {
       renderHeader: () => <StyledColumnHeader>Actions</StyledColumnHeader>,
       renderCell: (params) => (
         <>
-          <Button color="info" onClick={() => handleChange(params.row)}>
-            <BoxIcons>
-              <Pencil2Icon />
-              <GapComponents gapX="5px" />
-              Modifier
-            </BoxIcons>
-          </Button>
-          <GapComponents gapX="10px" />
           <Button color="danger" onClick={() => handleDelete(params.row)}>
             <BoxIcons>
               <Cross1Icon />
@@ -277,22 +313,13 @@ export default function Hour() {
         description={description}
         inputComponents={handleAddJSX}
       />
-      {/* <Modal
+      <Modal
         open={isOpenA}
         closeModal={closeModal}
         title={title}
         description={description}
-        data={classData}
-        inputComponents={handleModifyJSX}
-      /> */}
-      {/* <Modal
-        open={isOpenB}
-        closeModal={closeModal}
-        title={title}
-        description={description}
-        data={classData}
         inputComponents={handleDeleteJSX}
-      /> */}
+      />
       <Box>
         <StyledDataGrid
           rows={rows}

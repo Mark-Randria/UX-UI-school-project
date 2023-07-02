@@ -105,3 +105,11 @@ export const StyledDataGrid = styled(DataGrid)`
     }
   }
 `;
+
+export const Description = styled.p`
+  color: ${(props) => props.theme.colors.slate12};
+  a.link {
+    color: ${(props) => props.theme.colors.indigoA11};
+    font-weight: bold;
+  }
+`

@@ -272,7 +272,7 @@ export default function Hour() {
       flex: 2,
       editable: false,
       renderHeader: () => (
-        <StyledColumnHeader>Heure de debut</StyledColumnHeader>
+        <StyledColumnHeader>Heure de Début</StyledColumnHeader>
       ),
     },
     {

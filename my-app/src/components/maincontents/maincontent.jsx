@@ -7,6 +7,7 @@ import Day from "./contentvalue/day";
 import Class from "./contentvalue/class";
 import Room from "./contentvalue/room";
 import Hour from "./contentvalue/hour";
+import Setting from "./contentvalue/setting";
 
 export default function Maincontent({ activePage }) {
   let content;
@@ -32,6 +33,9 @@ export default function Maincontent({ activePage }) {
       break;
     case "professeur":
       content = <Teacher />;
+      break;
+    case "parametre":
+      content = <Setting />;
       break;
     default:
       content = <div>Oups ! page introuvable...</div>;

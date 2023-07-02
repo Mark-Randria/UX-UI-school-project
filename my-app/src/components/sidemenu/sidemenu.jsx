@@ -18,6 +18,7 @@ import {
   GearIcon,
   TimerIcon,
   CalendarIcon,
+  InfoCircledIcon
 } from "@radix-ui/react-icons";
 
 export default function Sidemenu({ setActivePage }) {
@@ -111,9 +112,9 @@ export default function Sidemenu({ setActivePage }) {
             active={activeLink === "parametre"}
             onClick={() => handleLinkClick("parametre")}
           >
-            <GearIcon />
+            <InfoCircledIcon width="18px" height="18px" />
             <GapComponents gapX="10px" />
-            Paramètres du compte
+            A propos
           </Box>
         </SideMenuContent>
         <SideMenuContent>

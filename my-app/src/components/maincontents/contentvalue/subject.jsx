@@ -398,7 +398,7 @@ export default function Subject() {
       field: "Nom_Matiere",
       flex: 2,
       editable: false,
-      renderHeader: () => <StyledColumnHeader>Matiere</StyledColumnHeader>,
+      renderHeader: () => <StyledColumnHeader>Matière</StyledColumnHeader>,
     },
     {
       field: "Nom_professeur",

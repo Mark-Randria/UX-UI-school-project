@@ -2,11 +2,11 @@ import axios from "axios";
 import { BASE_URL } from "./constant/url";
 // import { useNavigate } from "react-router-dom";
 
-let login = async (identity, password) => {
+let login = async (username, password) => {
   const response = await axios.get(
-    BASE_URL + `/comptes?identity=${identity}&password=${password}`,
+    BASE_URL + `/comptes?username=${username}&password=${password}`,
     {
-      identity,
+      username,
       password,
     }
   );
@@ -14,7 +14,7 @@ let login = async (identity, password) => {
   if (user) {
     const expirationTime = Date.now() + 60 * 60 * 1000;
     const FakeToken = {
-      user: user.identity,
+      user: user.username,
       token: "fake-token",
       expiresAt: expirationTime,
     };
@@ -27,13 +27,36 @@ let logout = () => {
   removeToken();
 };
 
-let signup = async (username, email, password, avatar) => {
-  return axios.post(BASE_URL + "/users/signup", {
-    username,
-    email,
-    password,
-    avatar,
-  });
+let signup = async (username, email, password) => {
+  axios
+    .post(
+      BASE_URL + "/comptes",
+      {
+        username,
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response);
+      if (response.status === 201) {
+        const expirationTime = Date.now() + 60 * 60 * 1000;
+        const FakeToken = {
+          user: username,
+          token: "fake-token",
+          expiresAt: expirationTime,
+        };
+        sessionStorage.setItem("token", JSON.stringify(FakeToken));
+      }
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 let isLogged = () => {

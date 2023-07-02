@@ -1,6 +1,9 @@
 import styled, { css } from "styled-components";
 import { DataGrid } from "@mui/x-data-grid";
 
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
 export const Title = styled.div`
   padding: 2rem;
   position: sticky;

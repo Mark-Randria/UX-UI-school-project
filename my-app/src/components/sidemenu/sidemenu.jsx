@@ -113,7 +113,7 @@ export default function Sidemenu({ setActivePage }) {
           >
             <GearIcon />
             <GapComponents gapX="10px" />
-            Parametre du compte
+            Paramètres du compte
           </Box>
         </SideMenuContent>
         <SideMenuContent>

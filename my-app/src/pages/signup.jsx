@@ -76,20 +76,18 @@ export default function Login() {
         password: password,
         email: email,
       };
-
-      console.log(data.username, data.password, data.email);
-      const token = AuthService.login(data.username, data.password)
+      AuthService.signup(data.username, data.email, data.password)
         .then((response) => {
-          console.log(response);
-          setMessage("Connexion reussie");
+          setMessage("Inscription reussie, connexion en cours");
           setSeverity("success");
           handleClick();
-          Navigate("/");
           setUser("");
           setConfirmPassword("");
           setEmail("");
           setPassword("");
-          setMessage("");
+          setTimeout(() => {
+            Navigate("/Dashboard");
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
@@ -105,7 +103,7 @@ export default function Login() {
     setUser("");
     setPassword("");
     setEmail("");
-    setConfirmPassword("")
+    setConfirmPassword("");
     setMessage("");
   };
 

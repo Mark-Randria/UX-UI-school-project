@@ -2,23 +2,9 @@
   "comptes": [
     {
       "id": 1,
-      "identity": "hohoho",
-      "password": "Aaa10000"
-    },
-    {
-      "id": 2,
-      "identity": "bismila",
-      "password": "period12"
-    },
-    {
-      "identity": "hohoho",
+      "username": "Mark",
       "password": "Aaa10000",
-      "id": 3
-    },
-    {
-      "identity": "c",
-      "password": "c",
-      "id": 4
+      "email": "example@gmail.com"
     }
   ]
 }

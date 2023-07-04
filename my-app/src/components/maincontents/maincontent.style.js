@@ -62,6 +62,18 @@ export const EndBox = styled.div`
   justify-content: flex-end;
 `;
 
+export const BoxAA = styled(EndBox)`
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+`;
+
+export const BoxBB = styled(BoxAA)`
+  flex-direction: row;
+  align-content: center;
+`
+
 export const BoxIcons = styled(Box)`
   flex-direction: row;
   padding: 0;
@@ -112,4 +124,4 @@ export const Description = styled.p`
     color: ${(props) => props.theme.colors.indigoA11};
     font-weight: bold;
   }
-`
+`;

@@ -5,6 +5,18 @@
       "username": "Mark",
       "password": "Aaa10000",
       "email": "example@gmail.com"
+    },
+    {
+      "username": "ZAho",
+      "email": "example@gmail.com",
+      "password": "Kakalo10",
+      "id": 2
+    },
+    {
+      "username": "Aaaa",
+      "email": "Aaa@gmail.co",
+      "password": "Aaa10000",
+      "id": 3
     }
   ]
 }

@@ -110,7 +110,7 @@ export default function Class() {
   const handleDelete = (row) => {
     openModalB();
     setSelectedClass(row);
-    setTitle("Suppression d' une classe");
+    setTitle("Suppression d'une classe");
     setDescription("Voulez-vous supprimer cette classe ?");
   };
 
@@ -134,10 +134,11 @@ export default function Class() {
           "http://192.168.43.252/backend_IHM/api/api_classe.php",
           data
         );
-        setMessage("La classe à bien été ajouté");
+        setMessage("La classe a bien été ajouté");
         setSeverity("success");
         ShowAlert();
         setSelectedClass("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -175,6 +176,7 @@ export default function Class() {
         setSeverity("success");
         ShowAlert();
         setSelectedClass("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -200,6 +202,7 @@ export default function Class() {
         setMessage("Cette classe à été bien supprimé.");
         setSeverity("info");
         ShowAlert();
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);

@@ -8,6 +8,7 @@ import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Dashboard from "./pages/dashboard/dashboard";
 import Notfound from "./pages/notfound";
+import Histogram from "./components/maincontents/contentvalue/histogram";
 
 const ConnectedDashboard = withAuth(Dashboard);
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Signup" element={<Signup />} />
           <Route path="/Dashboard" element={<ConnectedDashboard />} />
+          <Route path="/Histogram" element={<Histogram />} />
           <Route path="*" element={<Notfound />} />
       </Routes>
     </WithTheme>

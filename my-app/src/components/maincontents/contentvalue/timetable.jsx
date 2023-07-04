@@ -8,6 +8,8 @@ import {
   Box2,
   BoxIcons,
   EndBox,
+  BoxAA,
+  BoxBB,
   GapComponents,
   StyledColumnHeader,
   StyledDataGrid,
@@ -26,6 +28,7 @@ import Modal from "../../modals/modals";
 import Alert from "../../alerts/alert";
 
 import { GridToolbar, frFR } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 export default function Timetable() {
   const [scheduleData, setScheduleData] = React.useState([]);
@@ -86,6 +89,7 @@ export default function Timetable() {
           "http://192.168.43.252/backend_IHM/api/api_prof.php"
         );
         setScheduleData(response.data);
+        console.log(response.data);
         setRows(response.data);
         setHours(responseHours.data);
         setRooms(responseRooms.data);
@@ -98,6 +102,8 @@ export default function Timetable() {
 
     fetchData();
   }, []);
+
+  const Navigate = useNavigate();
 
   const openModal = () => {
     setIsOpen(true);
@@ -281,7 +287,10 @@ export default function Timetable() {
       };
       const data = JSON.stringify(requestData);
       axios
-        .put(`http://localhost/backend_IHM/api/api_emploi.php?id=${id}`, data)
+        .put(
+          `http://localhost/backend_IHM/api/api_emploi_ko.php?id=${id}`,
+          data
+        )
         .then((response) => {
           setMessage("Emploi du temps modifié avec succes");
           setSeverity("success");
@@ -309,7 +318,9 @@ export default function Timetable() {
     event.preventDefault();
     let id = idSchedule;
     axios
-      .delete(`http://localhost/backend_IHM/api/api_heure.php?id=${id}`)
+      .delete(
+        `http://192.168.43.252/backend_IHM/api/api_emploi_ko.php?id=${id}`
+      )
       .then((response) => {
         setMessage("L'emploi du temps à bien été supprimé.");
         setSeverity("info");
@@ -318,9 +329,16 @@ export default function Timetable() {
         setTimeout(() => {
           window.location.reload();
         }, 2000);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleShowHistogram = () => {
+    Navigate("/Histogram", {
+      state: { data: scheduleData },
+    });
   };
 
   const handleAddJSX = (
@@ -562,11 +580,7 @@ export default function Timetable() {
     <>
       <EndBox>
         <Button color="danger" onClick={handleSubmitDelete}>
-          <BoxIcons>
-            Confirmer
-            <GapComponents gapX="5px" />
-            <CheckIcon />
-          </BoxIcons>
+          <BoxIcons>Confirmer</BoxIcons>
         </Button>
         <GapComponents gapX="10px" />
       </EndBox>
@@ -713,10 +727,21 @@ export default function Timetable() {
             pageSizeOptions={[5, 10]}
             disableRowSelectionOnClick
           />
-          <GapComponents gapY="20px" />
+          <GapComponents gapY="30px" />
           <Button width="10vw" minWidth="147px" onClick={handleAdd}>
             Ajouter un emploi du temps
           </Button>
+          <div>
+            <GapComponents gapY="30px" />
+            <BoxAA>
+              <BoxBB>
+                <GapComponents gapX="50px" />
+                <Button color="info" onClick={handleShowHistogram}>
+                  Creer un histogramme
+                </Button>
+              </BoxBB>
+            </BoxAA>
+          </div>
         </Box>
         <Alert
           open={open}

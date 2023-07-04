@@ -136,10 +136,11 @@ export default function Teacher() {
           "http://192.168.43.252/backend_IHM/api/api_prof.php",
           data
         );
-        setMessage("Le professeur à bien été ajouté");
+        setMessage("Le professeur a bien été ajouté");
         setSeverity("success");
         ShowAlert();
         setSelectedTeacher("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -173,10 +174,11 @@ export default function Teacher() {
           `http://192.168.43.252/backend_IHM/api/api_prof.php?id=${idTeachers}`,
           data
         );
-        setMessage("Le professeur à bien été modifié ");
+        setMessage("Le professeur a bien été modifié ");
         setSeverity("success");
         ShowAlert();
         setSelectedTeacher("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -199,9 +201,10 @@ export default function Teacher() {
     axios
       .delete(`http://192.168.43.252/backend_IHM/api/api_prof.php?id=${id}`)
       .then((response) => {
-        setMessage("Ce professeur à bien été retiré.");
+        setMessage("Ce professeur a bien été retiré.");
         setSeverity("info");
         ShowAlert();
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);

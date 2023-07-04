@@ -125,6 +125,7 @@ export default function Day() {
         setSeverity("success");
         ShowAlert();
         setSelectedDay("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -157,6 +158,7 @@ export default function Day() {
         setMessage("Ce jour à été bien supprimé.");
         setSeverity("info");
         ShowAlert();
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -211,11 +213,27 @@ export default function Day() {
     </>
   );
 
+  const dayNameComparator = (dayName1, dayName2) => {
+    const dayOrder = {
+      Lundi: 1,
+      Mardi: 2,
+      Mercredi: 3,
+      Jeudi: 4,
+      Vendredi: 5,
+      Samedi: 6,
+      Dimanche: 7,
+    };
+
+    return dayOrder[dayName1] - dayOrder[dayName2];
+  };
+
   const columns = [
     {
       field: "Nom_Jour",
       flex: 2,
       editable: false,
+      sortComparator: (v1, v2, cellParams1, cellParams2) =>
+        dayNameComparator(v1, v2),
       renderHeader: () => (
         <StyledColumnHeader>Jour de la semaine</StyledColumnHeader>
       ),

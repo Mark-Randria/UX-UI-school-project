@@ -137,10 +137,11 @@ export default function Room() {
           "http://192.168.43.252/backend_IHM/api/api_salle.php",
           data
         );
-        setMessage("La salle à bien été ajouté");
+        setMessage("La salle a bien été ajouté");
         setSeverity("success");
         ShowAlert();
         setSelectedRoom("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -174,10 +175,11 @@ export default function Room() {
           `http://192.168.43.252/backend_IHM/api/api_salle.php?id=${idRoom}`,
           data
         );
-        setMessage("La salle à bien été modifié ");
+        setMessage("La salle a bien été modifié ");
         setSeverity("success");
         ShowAlert();
         setSelectedRoom("");
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -200,9 +202,10 @@ export default function Room() {
     axios
       .delete(`http://192.168.43.252/backend_IHM/api/api_salle.php?id=${id}`)
       .then((response) => {
-        setMessage("La salle à été bien supprimé.");
+        setMessage("La salle a été bien supprimé.");
         setSeverity("info");
         ShowAlert();
+        closeModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);

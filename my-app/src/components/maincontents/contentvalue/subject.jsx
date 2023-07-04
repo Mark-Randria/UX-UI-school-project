@@ -117,8 +117,8 @@ export default function Subject() {
   const handleAdd = () => {
     setSelectedSubject("");
     openModal();
-    setTitle("Ajout d'une matiere");
-    setDescription("Veuilez ajouter un nouveau matiere");
+    setTitle("Ajout d'une matière");
+    setDescription("Veuillez ajouter une nouvelle matière");
   };
 
   const handleChange = (row) => {

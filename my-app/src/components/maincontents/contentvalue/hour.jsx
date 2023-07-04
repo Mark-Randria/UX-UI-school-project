@@ -257,8 +257,6 @@ export default function Hour() {
         <Button color="danger" onClick={handleSubmitDelete}>
           <BoxIcons>
             Confirmer
-            <GapComponents gapX="5px" />
-            <CheckIcon />
           </BoxIcons>
         </Button>
         <GapComponents gapX="10px" />

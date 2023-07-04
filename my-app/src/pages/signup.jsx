@@ -81,18 +81,14 @@ export default function Login() {
           setMessage("Inscription reussie, connexion en cours");
           setSeverity("success");
           handleClick();
-          setUser("");
-          setConfirmPassword("");
-          setEmail("");
-          setPassword("");
           setTimeout(() => {
             Navigate("/Dashboard");
           }, 2000);
         })
         .catch((error) => {
           console.log(error);
-          setSeverity("error");
           setMessage("Probleme de connexion au serveur");
+          setSeverity("error");
           handleClick();
         });
     }
